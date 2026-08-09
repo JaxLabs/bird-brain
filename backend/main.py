@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from models import Study
+from ingest import insert_study
+from fastapi import HTTPException
 
 app = FastAPI()
 
@@ -13,3 +16,11 @@ app.add_middleware(
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.post("/studies")
+def upload_study(study: Study):
+    try:
+        insert_study(study)
+        return {"status": "success", "id": study.id}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
