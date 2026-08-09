@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from models import Study
 from ingest import insert_study
 from fastapi import HTTPException
+from embeddings import embed_and_store
 
 app = FastAPI()
 
@@ -21,6 +22,7 @@ def health():
 def upload_study(study: Study):
     try:
         insert_study(study)
+        embed_and_store(study)
         return {"status": "success", "id": study.id}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
