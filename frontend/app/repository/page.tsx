@@ -129,16 +129,17 @@ export default function Repository() {
             <div style={{ marginBottom: "0.5rem" }}>
               {study.tags.map((tag) => (
                 <span
-                  key={tag}
-                  style={{
-                    fontSize: "0.75rem",
-                    background: "#eee",
-                    borderRadius: "4px",
-                    padding: "2px 6px",
-                    marginRight: "4px",
-                  }}
-                >
-                  {tag}
+                    key={tag}
+                    style={{
+                        fontSize: "0.75rem",
+                        background: "var(--color-tag-bg)",
+                        color: "var(--color-text-muted)",
+                        borderRadius: "4px",
+                        padding: "2px 6px",
+                        marginRight: "4px",
+                    }}
+                    >
+                    {tag}
                 </span>
               ))}
             </div>
@@ -157,7 +158,7 @@ export default function Repository() {
           style={{
             width: "320px",
             flexShrink: 0,
-            border: "1px solid #ccc",
+            border: "1px solid var(--color-border)",
             borderRadius: "8px",
             padding: "1rem",
             maxHeight: "90vh",

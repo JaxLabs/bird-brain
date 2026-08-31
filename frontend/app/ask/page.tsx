@@ -53,8 +53,19 @@ export default function Ask() {
           placeholder="Ask about Merlin research..."
           style={{ flex: 1, padding: "0.5rem" }}
         />
-        <button onClick={handleAsk} disabled={loading} style={{ padding: "0.5rem 1rem" }}>
-          {loading ? "Thinking..." : "Ask"}
+        <button
+            onClick={handleAsk}
+            disabled={loading}
+            style={{
+                padding: "0.5rem 1rem",
+                background: "var(--color-accent)",
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+            }}
+            >
+            {loading ? "Thinking..." : "Ask"}
         </button>
       </div>
 

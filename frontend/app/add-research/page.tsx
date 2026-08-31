@@ -53,7 +53,15 @@ export default function AddResearch() {
       <button
         onClick={handleUpload}
         disabled={!file}
-        style={{ marginTop: "1rem", padding: "0.5rem 1rem" }}
+        style={{
+          marginTop: "1rem",
+          padding: "0.5rem 1rem",
+          background: "var(--color-accent)",
+          color: "white",
+          border: "none",
+          borderRadius: "6px",
+          cursor: "pointer",
+        }}
       >
         Upload
       </button>
