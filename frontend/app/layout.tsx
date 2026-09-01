@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             borderBottom: "1px solid var(--color-border)",
           }}
         >
-          <Link href="/" style={{ fontWeight: 700, textDecoration: "none", color: "var(--color-text)" }}>
+          <Link href="/ask" style={{ fontWeight: 700, textDecoration: "none", color: "var(--color-text)" }}>
             🐦 Bird Brain
           </Link>
           <Link href="/ask" style={{ textDecoration: "none", color: "var(--color-accent)" }}>
