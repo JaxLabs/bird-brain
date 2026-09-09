@@ -62,7 +62,7 @@ def import_studies_from_csv(csv_path, db_path="bird_brain.db"):
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
-        # Create studies table with links
+        # Create studies table
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS studies (
                 id TEXT PRIMARY KEY,
@@ -76,8 +76,6 @@ def import_studies_from_csv(csv_path, db_path="bird_brain.db"):
                 tags TEXT,
                 key_findings TEXT,
                 full_content TEXT,
-                transcript_path TEXT,
-                findings_path TEXT,
                 additional_links TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
@@ -100,33 +98,42 @@ def import_studies_from_csv(csv_path, db_path="bird_brain.db"):
 
                     # Extract content from linked documents
                     full_content = row.get('summary', '')
+                    links_list = []
 
-                    transcript_path = row.get('transcript_path', '').strip()
-                    if transcript_path:
-                        full_path = csv_dir / transcript_path
-                        if full_path.exists():
-                            transcript_text = extract_text_from_file(full_path)
-                            full_content += f"\n\n--- Transcript ---\n{transcript_text[:2000]}"
-                            print(f"  📄 Extracted transcript: {transcript_path}")
+                    # Process up to 10 artifacts (artifact_1, artifact_2, ... artifact_10)
+                    for i in range(1, 11):
+                        label = row.get(f'artifact_{i}_label', '').strip()
+                        artifact_type = row.get(f'artifact_{i}_type', '').strip()
+                        url = row.get(f'artifact_{i}_url', '').strip()
 
-                    findings_path = row.get('findings_path', '').strip()
-                    if findings_path:
-                        full_path = csv_dir / findings_path
-                        if full_path.exists():
-                            findings_text = extract_text_from_file(full_path)
-                            full_content += f"\n\n--- Findings Report ---\n{findings_text[:2000]}"
-                            print(f"  📄 Extracted findings: {findings_path}")
+                        if not url:
+                            continue
 
-                    # Parse additional links (comma-separated)
-                    additional_links = row.get('additional_links', '')
-                    links_list = [link.strip() for link in additional_links.split(',') if link.strip()]
+                        # Create link object
+                        link = {
+                            "label": label or f"Resource {i}",
+                            "type": artifact_type or "link",
+                            "url": url
+                        }
+                        links_list.append(link)
+
+                        # Extract text from local files
+                        if not url.startswith('http'):
+                            full_path = csv_dir / url
+                            if full_path.exists():
+                                content = extract_text_from_file(full_path)
+                                if content:
+                                    full_content += f"\n\n--- {link['label']} ---\n{content[:1500]}"
+                                    print(f"  📄 Extracted: {link['label']} ({artifact_type})")
+                        else:
+                            print(f"  🔗 Linked: {link['label']}")
 
                     cursor.execute('''
                         INSERT OR REPLACE INTO studies
                         (id, title, date, methodology, description, participants,
                          researcher, summary, tags, key_findings, full_content,
-                         transcript_path, findings_path, additional_links)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                         additional_links)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ''', (
                         study_id,
                         title,
@@ -139,8 +146,6 @@ def import_studies_from_csv(csv_path, db_path="bird_brain.db"):
                         json.dumps(tags),
                         row.get('key_findings'),
                         full_content,
-                        transcript_path,
-                        findings_path,
                         json.dumps(links_list)
                     ))
 

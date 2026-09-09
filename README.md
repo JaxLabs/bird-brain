@@ -53,7 +53,7 @@ Open `http://localhost:3000` → You should see the app!
 
 Create a CSV file with your research. Use `research_template.csv` as a template.
 
-**Columns:**
+**Core Study Fields:**
 | Column | Description | Example |
 |--------|-------------|---------|
 | `id` | Unique ID | `study-001` |
@@ -66,14 +66,43 @@ Create a CSV file with your research. Use `research_template.csv` as a template.
 | `summary` | Key insight | `Users prioritize audio over visuals...` |
 | `tags` | Keywords (comma-separated) | `interviews,accessibility,audio` |
 | `key_findings` | Main takeaways | `Finding 1. Finding 2. Finding 3.` |
-| `transcript_path` | Path to transcript | `../Research/Interviews/P1.pdf` |
-| `findings_path` | Path to findings report | `../Research/Interviews/report.pdf` |
-| `additional_links` | External URLs (comma-separated) | `https://example.com/study,https://docs.google.com/xyz` |
+
+**Media/Artifacts (add as many as you need):**
+For each artifact, add 3 columns: `artifact_X_label`, `artifact_X_type`, `artifact_X_url`
+
+| Label Column | Type Column | URL Column | Description |
+|---|---|---|---|
+| `artifact_1_label` | `artifact_1_type` | `artifact_1_url` | First media item |
+| `artifact_2_label` | `artifact_2_type` | `artifact_2_url` | Second media item |
+| `artifact_3_label` | `artifact_3_type` | `artifact_3_url` | Third media item |
+
+**Artifact Types (examples):**
+- `transcript` - Interview or session transcript
+- `findings_report` - Analysis or findings document
+- `video` - Video file or link
+- `audio` - Audio recording or podcast
+- `photo` - Photo or image
+- `data_file` - Spreadsheet or data export
+- `external_link` - Blog post, article, or report link
+- `note` - Research notes or summary
+
+**Leave blank if you don't have that media!** The CSV will skip empty cells.
 
 ### Step 2: Example CSV Entry
 
+**Minimal (only required fields):**
 ```csv
-study-interviews-001,Interviews with Birders,2024-01,Qualitative,"Exploring mindful birding with accessibility focus","6 participants (4 BLV, 2 sighted)","Dr. Jane Smith, Dr. Alex Lee","Users want audio-first experiences. Accessibility enables inclusive design.","interviews,qualitative,accessibility,audio","Finding 1: Audio cues are essential. Finding 2: Accessibility features enable broader participation. Finding 3: Community engagement is motivating.","../Research/Interviews/transcripts/P1_transcript.pdf","../Research/Interviews/findings_report.pdf","https://example.com/full-study,https://drive.google.com/file/d/xyz"
+study-001,Quick Study,2024-01,Qualitative,"Brief description here","5 people","Dr. Smith","Key finding here","tag1,tag2","Main takeaway.",,,,,,,,,
+```
+
+**Full example with media:**
+```csv
+study-interviews-001,Interviews with Birders,2024-01,Qualitative,"Exploring mindful birding with accessibility focus","6 participants (4 BLV, 2 sighted)","Dr. Jane Smith, Dr. Alex Lee","Users want audio-first experiences. Accessibility enables inclusive design.","interviews,qualitative,accessibility,audio","Finding 1: Audio cues are essential. Finding 2: Accessibility features enable broader participation.","P1 Interview","transcript","../Research/Interviews/P1.pdf","Findings Report","findings_report","../Research/Interviews/report.pdf","Full Study","external_link","https://example.com/study"
+```
+
+**Flexible - add only what you have:**
+```csv
+study-codesign-001,Co-design Sessions,2024-02,Generative,"Workshop with users","8 participants","Dr. Lee","Participants preferred modular designs.","co-design,generative","Takeaway: Users want customization.","Session Notes","note","../Research/Co-design/notes.docx",,,,"Video Recording","video","https://drive.google.com/file/d/xyz",,,
 ```
 
 ### Step 3: Add Document References

@@ -73,10 +73,10 @@ def ask_question(payload: dict):
             "SELECT text, participant FROM quotes WHERE study_id=?", (study_id,))]
         tags = [t["tag"] for t in conn.execute(
             "SELECT tag FROM study_tags WHERE study_id=?", (study_id,))]
-        # Parse links
-        additional_links = []
+        # Parse artifacts/links
+        artifacts = []
         try:
-            additional_links = json.loads(row["additional_links"] or "[]")
+            artifacts = json.loads(row["additional_links"] or "[]")
         except:
             pass
 
@@ -87,9 +87,7 @@ def ask_question(payload: dict):
             "summary": row["summary"],
             "tags": tags,
             "quotes": quotes,
-            "transcript_path": row["transcript_path"],
-            "findings_path": row["findings_path"],
-            "additional_links": additional_links,
+            "artifacts": artifacts,
         })
     conn.close()
 
