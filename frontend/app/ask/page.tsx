@@ -106,7 +106,7 @@ export default function Ask() {
             // Landing state
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginTop: "2rem" }}>
               <div style={{ width: "100%", marginBottom: "2rem", maxWidth: "100%" }}>
-                <BirdImage alt="Bird photo" width={800} height={250} style={{ width: "100%", height: "auto", objectFit: "contain", borderRadius: "4px" }} />
+                <BirdImage alt="Bird photo" width={800} height={250} style={{ width: "100%", height: "auto", objectFit: "contain", borderRadius: "0 4px 4px 0" }} />
               </div>
               <h1 style={{ marginTop: "1.5rem", color: "var(--color-text)" }}>Research Assistant</h1>
               <p style={{ color: "var(--color-text-muted)" }}>
