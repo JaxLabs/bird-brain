@@ -17,7 +17,7 @@ Open Terminal (search for "Terminal" in Spotlight or start menu).
 
 **Terminal Window 1:**
 ```
-cd ~/Desktop/ResearchRepositoryMerlin/bird-brain/backend
+cd ~bird-brain/backend
 python3 -m venv venv
 source venv/bin/activate
 pip install fastapi uvicorn lancedb ollama
@@ -35,7 +35,7 @@ Leave it running.
 
 **Terminal Window 3:**
 ```
-cd ~/Desktop/ResearchRepositoryMerlin/bird-brain/frontend
+cd ~/bird-brain/frontend
 npm install
 npm run dev
 ```
@@ -59,7 +59,7 @@ Put your research data in a CSV file (like Excel).
 
 Then in Terminal:
 ```
-cd ~/Desktop/ResearchRepositoryMerlin/bird-brain/backend
+cd ~/bird-brain/backend
 source venv/bin/activate
 python3 import_studies.py yourfile.csv bird_brain.db
 ```
