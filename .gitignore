@@ -10,3 +10,7 @@ lancedb/
 # Research data - PRIVATE, do not commit
 *.research.csv
 research_data.json
+
+
+# Research data - PRIVATE, do not commit
+research/
