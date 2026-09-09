@@ -4,10 +4,8 @@ import Papa from "papaparse";
 import { useState } from "react";
 
 const REQUIRED_FIELDS = [
-  { field: "id", type: "string", notes: "Unique identifier, no spaces" },
   { field: "title", type: "string", notes: "Descriptive study title" },
   { field: "date", type: "YYYY-MM-DD", notes: "ISO date format" },
-  { field: "researchType", type: '"Qual" | "Quant"', notes: "Qualitative or Quantitative" },
   { field: "methodology", type: "string", notes: "e.g. Interview, Codesign Session, App Review Analysis" },
   { field: "topic", type: "string", notes: "Primary research topic" },
   { field: "interaction", type: '"Moderated" | "Unmoderated" | "Survey"', notes: "Session format" },
@@ -16,33 +14,12 @@ const REQUIRED_FIELDS = [
   { field: "features", type: "string[]", notes: "Open tags — what the research is about" },
   { field: "summary", type: "string", notes: "1-2 sentence key finding" },
   { field: "tags", type: "string[]", notes: "Lowercase keyword tags" },
-  { field: "startingQuestions", type: "string[]", notes: "Interview questions used" },
-  { field: "artifacts", type: "object[]", notes: "Links or uploaded files (transcripts, audio, PDFs, etc.)" },
 ];
 
 const SUGGESTED_METHODOLOGIES = [
   "Interview", "Field Observation", "Codesign Session", "App Review Analysis",
   "Social Media Analysis", "Support Ticket Coding", "Concept Testing", "In-the-Wild Testing",
 ];
-
-const EXAMPLE_JSON = `{
-  "id": "sound-id-discovery-01",
-  "title": "Sound ID First-Time Discovery",
-  "date": "2024-11-14",
-  "researchType": "Qual",
-  "methodology": "Interview",
-  "topic": "Sound ID",
-  "interaction": "Moderated",
-  "participants": 8,
-  "researcher": "Jax Powell",
-  "features": ["Sound ID", "Onboarding"],
-  "summary": "Most users discovered Sound ID accidentally.",
-  "tags": ["onboarding", "discoverability"],
-  "startingQuestions": ["How did you first learn about Sound ID?"],
-  "artifacts": [
-    { "artifact_type": "Transcript", "source_type": "link", "url": "https://...", "label": "P4 session" }
-  ]
-}`;
 
 const inputStyle: React.CSSProperties = {
   padding: "0.5rem 0.7rem",
@@ -74,15 +51,11 @@ type Artifact = { artifact_type: string; source_type: "link" | "upload"; url: st
 export default function AddResearch() {
   const [status, setStatus] = useState<string>("");
   const [dragOver, setDragOver] = useState(false);
-  const [showExample, setShowExample] = useState(false);
-  const [showCsv, setShowCsv] = useState(false);
   const [mode, setMode] = useState<"upload" | "form">("upload");
 
   const [form, setForm] = useState({
-    id: "",
     title: "",
     date: "",
-    researchType: "Qual",
     methodology: "",
     topic: "",
     interaction: "Moderated",
@@ -91,7 +64,6 @@ export default function AddResearch() {
     featuresInput: "",
     summary: "",
     tags: "",
-    startingQuestions: "",
   });
 
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
@@ -137,10 +109,10 @@ export default function AddResearch() {
 
   async function submitForm() {
     const study = {
-      id: form.id.trim(),
+      id: `study-${Date.now()}`,
       title: form.title.trim(),
       date: form.date,
-      researchType: form.researchType,
+      researchType: "Qual",
       methodology: form.methodology.trim(),
       topic: form.topic.trim(),
       interaction: form.interaction,
@@ -150,7 +122,7 @@ export default function AddResearch() {
       summary: form.summary.trim(),
       tags: splitList(form.tags),
       demographics: [],
-      startingQuestions: splitList(form.startingQuestions),
+      startingQuestions: [],
       directQuotes: [],
       documents: [],
       transcriptLink: null,
@@ -167,6 +139,18 @@ export default function AddResearch() {
       });
     }
     setArtifacts([]);
+    setForm({
+      title: "",
+      date: "",
+      methodology: "",
+      topic: "",
+      interaction: "Moderated",
+      participants: "",
+      researcher: "",
+      featuresInput: "",
+      summary: "",
+      tags: "",
+    });
   }
 
   async function processFile(file: File) {
@@ -201,10 +185,10 @@ export default function AddResearch() {
 
   function csvRowToStudy(row: any) {
     return {
-      id: row.id?.trim(),
+      id: row.id?.trim() || `study-${Date.now()}`,
       title: row.title?.trim(),
       date: row.date?.trim(),
-      researchType: row.researchType?.trim(),
+      researchType: "Qual",
       methodology: row.methodology?.trim(),
       topic: row.topic?.trim(),
       interaction: row.interaction?.trim(),
@@ -214,7 +198,7 @@ export default function AddResearch() {
       summary: row.summary?.trim(),
       tags: splitList(row.tags),
       demographics: [],
-      startingQuestions: splitList(row.startingQuestions),
+      startingQuestions: [],
       directQuotes: [],
       documents: [],
       transcriptLink: row.transcriptLink?.trim() || null,
@@ -224,16 +208,21 @@ export default function AddResearch() {
   async function uploadStudies(studies: any[]): Promise<boolean> {
     let successCount = 0;
     for (const study of studies) {
-      const res = await fetch("http://localhost:8000/studies", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(study),
-      });
-      if (res.ok) {
-        successCount++;
-      } else {
-        const err = await res.json();
-        setStatus(`Error on "${study.id}": ${err.detail}`);
+      try {
+        const res = await fetch("http://localhost:8000/studies", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(study),
+        });
+        if (res.ok) {
+          successCount++;
+        } else {
+          const err = await res.json();
+          setStatus(`Error on "${study.id}": ${err.detail}`);
+          return false;
+        }
+      } catch (e) {
+        setStatus(`Error uploading study: ${e}`);
         return false;
       }
     }
@@ -252,7 +241,7 @@ export default function AddResearch() {
     <main style={{ padding: "3rem 2rem", maxWidth: "700px", margin: "0 auto" }}>
       <h1 style={{ color: "var(--color-text)" }}>Add Research</h1>
       <p style={{ color: "var(--color-text-muted)" }}>
-        Upload a JSON or CSV file, or enter a study manually. Each study must follow the schema below.
+        Upload a JSON or CSV file, or enter a study manually.
       </p>
 
       <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.5rem" }}>
@@ -327,10 +316,6 @@ export default function AddResearch() {
 
       {mode === "form" && (
         <div style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: "0.9rem" }}>
-          <Field label="ID">
-            <input value={form.id} onChange={(e) => updateField("id", e.target.value)} style={inputStyle} />
-          </Field>
-
           <Field label="Title">
             <input value={form.title} onChange={(e) => updateField("title", e.target.value)} style={inputStyle} />
           </Field>
@@ -340,11 +325,19 @@ export default function AddResearch() {
           </Field>
 
           <div style={{ display: "flex", gap: "0.75rem" }}>
-            <Field label="Research Type">
-              <select value={form.researchType} onChange={(e) => updateField("researchType", e.target.value)} style={inputStyle}>
-                <option value="Qual">Qual</option>
-                <option value="Quant">Quant</option>
-              </select>
+            <Field label="Methodology">
+              <input
+                list="methodology-options"
+                value={form.methodology}
+                onChange={(e) => updateField("methodology", e.target.value)}
+                placeholder="e.g. Interview"
+                style={inputStyle}
+              />
+              <datalist id="methodology-options">
+                {SUGGESTED_METHODOLOGIES.map((m) => (
+                  <option key={m} value={m} />
+                ))}
+              </datalist>
             </Field>
             <Field label="Interaction">
               <select value={form.interaction} onChange={(e) => updateField("interaction", e.target.value)} style={inputStyle}>
@@ -355,40 +348,26 @@ export default function AddResearch() {
             </Field>
           </div>
 
-          <Field label="Methodology">
-            <input
-              list="methodology-options"
-              value={form.methodology}
-              onChange={(e) => updateField("methodology", e.target.value)}
-              placeholder="e.g. Interview, Codesign Session, App Review Analysis"
-              style={inputStyle}
-            />
-            <datalist id="methodology-options">
-              {SUGGESTED_METHODOLOGIES.map((m) => (
-                <option key={m} value={m} />
-              ))}
-            </datalist>
-          </Field>
-
           <Field label="Topic">
             <input value={form.topic} onChange={(e) => updateField("topic", e.target.value)} style={inputStyle} />
           </Field>
 
           <div style={{ display: "flex", gap: "0.75rem" }}>
-            <Field label="Participants">
+            <Field label="Number of Participants">
               <input
                 type="number"
                 value={form.participants}
                 onChange={(e) => updateField("participants", e.target.value)}
                 style={inputStyle}
+                placeholder="0"
               />
             </Field>
-            <Field label="Researcher">
+            <Field label="Researcher Name(s)">
               <input value={form.researcher} onChange={(e) => updateField("researcher", e.target.value)} style={inputStyle} />
             </Field>
           </div>
 
-          <Field label="Features (semicolon separated — what the research is about)">
+          <Field label="Features (semicolon separated)">
             <input
               value={form.featuresInput}
               onChange={(e) => updateField("featuresInput", e.target.value)}
@@ -411,15 +390,6 @@ export default function AddResearch() {
               value={form.tags}
               onChange={(e) => updateField("tags", e.target.value)}
               placeholder="onboarding; discoverability"
-              style={inputStyle}
-            />
-          </Field>
-
-          <Field label="Starting Questions (semicolon separated)">
-            <input
-              value={form.startingQuestions}
-              onChange={(e) => updateField("startingQuestions", e.target.value)}
-              placeholder="How did you first learn about...?"
               style={inputStyle}
             />
           </Field>
@@ -493,10 +463,9 @@ export default function AddResearch() {
                     fontSize: "0.85rem",
                   }}
                 >
-                  📎 Or upload a PDF
+                  📎 Or upload a file
                   <input
                     type="file"
-                    accept=".pdf"
                     style={{ display: "none" }}
                     onChange={(e) => {
                       const file = e.target.files?.[0];
@@ -552,52 +521,6 @@ export default function AddResearch() {
           ))}
         </tbody>
       </table>
-
-      <div style={{ marginTop: "1rem", borderTop: "1px solid var(--color-border)", paddingTop: "0.75rem" }}>
-        <div
-          onClick={() => setShowExample(!showExample)}
-          style={{ display: "flex", justifyContent: "space-between", cursor: "pointer", fontWeight: 600 }}
-        >
-          <span>📄 Example JSON</span>
-          <span>{showExample ? "▲" : "▼"}</span>
-        </div>
-        {showExample && (
-          <pre
-            style={{
-              background: "#f7f7f7",
-              padding: "1rem",
-              borderRadius: "8px",
-              fontSize: "0.75rem",
-              overflowX: "auto",
-              marginTop: "0.75rem",
-            }}
-          >
-            {EXAMPLE_JSON}
-          </pre>
-        )}
-      </div>
-
-      <div style={{ marginTop: "0.5rem", borderTop: "1px solid var(--color-border)", paddingTop: "0.75rem" }}>
-        <div
-          onClick={() => setShowCsv(!showCsv)}
-          style={{ display: "flex", justifyContent: "space-between", cursor: "pointer", fontWeight: 600 }}
-        >
-          <span>📄 CSV Column Reference</span>
-          <span>{showCsv ? "▲" : "▼"}</span>
-        </div>
-        {showCsv && (
-          <div style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", marginTop: "0.75rem" }}>
-            <p>
-              CSV columns should match field names exactly: <code>id, title, date, researchType, methodology,
-                topic, interaction, participants, researcher, features, summary, tags, startingQuestions, transcriptLink</code>
-            </p>
-            <p>
-              For list fields, separate multiple values within a cell using a semicolon — e.g. <code>Sound ID;Onboarding</code>
-            </p>
-            <p>Note: artifacts aren't supported via CSV yet — use manual entry or JSON for those.</p>
-          </div>
-        )}
-      </div>
     </main>
   );
 }
