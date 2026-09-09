@@ -499,28 +499,6 @@ export default function AddResearch() {
           )}
         </div>
       )}
-
-      <h3 style={{ marginTop: "2.5rem" }}>Required Fields</h3>
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
-        <thead>
-          <tr style={{ borderBottom: "1px solid var(--color-border)", textAlign: "left" }}>
-            <th style={{ padding: "0.5rem 0" }}>Field</th>
-            <th style={{ padding: "0.5rem 0" }}>Type</th>
-            <th style={{ padding: "0.5rem 0" }}>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          {REQUIRED_FIELDS.map((f) => (
-            <tr key={f.field} style={{ borderBottom: "1px solid var(--color-border)" }}>
-              <td style={{ padding: "0.5rem 0", fontFamily: "monospace" }}>{f.field}</td>
-              <td style={{ padding: "0.5rem 0", color: "var(--color-text-muted)", fontFamily: "monospace" }}>
-                {f.type}
-              </td>
-              <td style={{ padding: "0.5rem 0", color: "var(--color-text-muted)" }}>{f.notes}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </main>
   );
 }
