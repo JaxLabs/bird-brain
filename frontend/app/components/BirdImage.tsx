@@ -61,6 +61,7 @@ export default function BirdImage({ alt, width = 400, height = 250, rounded = tr
       style={{
         borderRadius: rounded ? "12px" : 0,
         objectFit: "cover",
+        objectPosition: "center",
       }}
     />
   );
