@@ -1,16 +1,7 @@
 import sqlite3
 from models import Study
 
-VALID_FEATURES = {
-    "Photo ID", "Sound ID", "Bird Packs", "Explore", "Life List",
-    "ID Wizard", "Range Maps", "eBird", "Notifications", "Onboarding", "Search"
-}
-
 def insert_study(study: Study):
-    invalid = [f for f in study.features if f not in VALID_FEATURES]
-    if invalid:
-        raise ValueError(f"Invalid feature(s): {invalid}")
-
     conn = sqlite3.connect("bird_brain.db")
     cur = conn.cursor()
 
@@ -24,7 +15,7 @@ def insert_study(study: Study):
 
     for feature in study.features:
         cur.execute("INSERT INTO study_features (study_id, feature) VALUES (?, ?)",
-                     (study.id, feature))
+                     (study.id, feature.strip()))
 
     for tag in study.tags:
         cur.execute("INSERT INTO study_tags (study_id, tag) VALUES (?, ?)",

@@ -8,23 +8,21 @@ const REQUIRED_FIELDS = [
   { field: "title", type: "string", notes: "Descriptive study title" },
   { field: "date", type: "YYYY-MM-DD", notes: "ISO date format" },
   { field: "researchType", type: '"Qual" | "Quant"', notes: "Qualitative or Quantitative" },
-  { field: "methodology", type: '"Evaluative" | "Generative"', notes: "Study methodology" },
+  { field: "methodology", type: "string", notes: "e.g. Interview, Codesign Session, App Review Analysis" },
   { field: "topic", type: "string", notes: "Primary research topic" },
   { field: "interaction", type: '"Moderated" | "Unmoderated" | "Survey"', notes: "Session format" },
   { field: "participants", type: "number", notes: "Total participant count" },
   { field: "researcher", type: "string", notes: "Lead researcher name" },
-  { field: "features", type: "string[]", notes: "Merlin features covered (see list below)" },
+  { field: "features", type: "string[]", notes: "Open tags — what the research is about" },
   { field: "summary", type: "string", notes: "1-2 sentence key finding" },
   { field: "tags", type: "string[]", notes: "Lowercase keyword tags" },
-  { field: "demographics", type: "object[]", notes: "{ age, role, tenure }" },
   { field: "startingQuestions", type: "string[]", notes: "Interview questions used" },
-  { field: "directQuotes", type: "object[]", notes: "{ text, participant, timestamp }" },
-  { field: "transcriptLink", type: "string", notes: "URL or path to transcript" },
+  { field: "artifacts", type: "object[]", notes: "Links or uploaded files (transcripts, audio, PDFs, etc.)" },
 ];
 
-const VALID_FEATURES = [
-  "Photo ID", "Sound ID", "Bird Packs", "Explore", "Life List",
-  "ID Wizard", "Range Maps", "eBird", "Notifications", "Onboarding", "Search",
+const SUGGESTED_METHODOLOGIES = [
+  "Interview", "Field Observation", "Codesign Session", "App Review Analysis",
+  "Social Media Analysis", "Support Ticket Coding", "Concept Testing", "In-the-Wild Testing",
 ];
 
 const EXAMPLE_JSON = `{
@@ -32,7 +30,7 @@ const EXAMPLE_JSON = `{
   "title": "Sound ID First-Time Discovery",
   "date": "2024-11-14",
   "researchType": "Qual",
-  "methodology": "Generative",
+  "methodology": "Interview",
   "topic": "Sound ID",
   "interaction": "Moderated",
   "participants": 8,
@@ -40,10 +38,10 @@ const EXAMPLE_JSON = `{
   "features": ["Sound ID", "Onboarding"],
   "summary": "Most users discovered Sound ID accidentally.",
   "tags": ["onboarding", "discoverability"],
-  "demographics": [{ "role": "Casual birder", "age_range": "24-32" }],
   "startingQuestions": ["How did you first learn about Sound ID?"],
-  "directQuotes": [{ "text": "I didn't realize...", "participant": "P4" }],
-  "documents": [{ "doc_type": "Research Report", "file_url": "https://..." }]
+  "artifacts": [
+    { "artifact_type": "Transcript", "source_type": "link", "url": "https://...", "label": "P4 session" }
+  ]
 }`;
 
 const inputStyle: React.CSSProperties = {
@@ -52,6 +50,7 @@ const inputStyle: React.CSSProperties = {
   border: "1px solid var(--color-border)",
   fontSize: "0.9rem",
   width: "100%",
+  fontFamily: "inherit",
 };
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
@@ -70,6 +69,8 @@ function splitList(value: string | undefined): string[] {
   return value.split(";").map((v) => v.trim()).filter(Boolean);
 }
 
+type Artifact = { artifact_type: string; source_type: "link" | "upload"; url: string; label: string };
+
 export default function AddResearch() {
   const [status, setStatus] = useState<string>("");
   const [dragOver, setDragOver] = useState(false);
@@ -82,28 +83,56 @@ export default function AddResearch() {
     title: "",
     date: "",
     researchType: "Qual",
-    methodology: "Evaluative",
+    methodology: "",
     topic: "",
     interaction: "Moderated",
     participants: "",
     researcher: "",
-    features: [] as string[],
+    featuresInput: "",
     summary: "",
     tags: "",
     startingQuestions: "",
   });
 
+  const [artifacts, setArtifacts] = useState<Artifact[]>([]);
+  const [newArtifactType, setNewArtifactType] = useState("");
+  const [newArtifactLabel, setNewArtifactLabel] = useState("");
+  const [newArtifactLink, setNewArtifactLink] = useState("");
+
   function updateField(field: string, value: any) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
-  function toggleFeature(feature: string) {
-    setForm((prev) => ({
+  function addLinkArtifact() {
+    if (!newArtifactType || !newArtifactLink) return;
+    setArtifacts((prev) => [
       ...prev,
-      features: prev.features.includes(feature)
-        ? prev.features.filter((f) => f !== feature)
-        : [...prev.features, feature],
-    }));
+      { artifact_type: newArtifactType, source_type: "link", url: newArtifactLink, label: newArtifactLabel },
+    ]);
+    setNewArtifactType("");
+    setNewArtifactLabel("");
+    setNewArtifactLink("");
+  }
+
+  async function addFileArtifact(file: File) {
+    if (!newArtifactType) {
+      setStatus('Enter an artifact type (e.g. "PDF") before uploading a file.');
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch("http://localhost:8000/upload-file", { method: "POST", body: formData });
+    const data = await res.json();
+    setArtifacts((prev) => [
+      ...prev,
+      { artifact_type: newArtifactType, source_type: "upload", url: data.url, label: newArtifactLabel },
+    ]);
+    setNewArtifactType("");
+    setNewArtifactLabel("");
+  }
+
+  function removeArtifact(index: number) {
+    setArtifacts((prev) => prev.filter((_, i) => i !== index));
   }
 
   async function submitForm() {
@@ -112,12 +141,12 @@ export default function AddResearch() {
       title: form.title.trim(),
       date: form.date,
       researchType: form.researchType,
-      methodology: form.methodology,
+      methodology: form.methodology.trim(),
       topic: form.topic.trim(),
       interaction: form.interaction,
       participants: Number(form.participants) || 0,
       researcher: form.researcher.trim(),
-      features: form.features,
+      features: splitList(form.featuresInput),
       summary: form.summary.trim(),
       tags: splitList(form.tags),
       demographics: [],
@@ -126,7 +155,18 @@ export default function AddResearch() {
       documents: [],
       transcriptLink: null,
     };
-    await uploadStudies([study]);
+
+    const ok = await uploadStudies([study]);
+    if (!ok) return;
+
+    for (const artifact of artifacts) {
+      await fetch(`http://localhost:8000/studies/${study.id}/artifacts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(artifact),
+      });
+    }
+    setArtifacts([]);
   }
 
   async function processFile(file: File) {
@@ -181,7 +221,7 @@ export default function AddResearch() {
     };
   }
 
-  async function uploadStudies(studies: any[]) {
+  async function uploadStudies(studies: any[]): Promise<boolean> {
     let successCount = 0;
     for (const study of studies) {
       const res = await fetch("http://localhost:8000/studies", {
@@ -194,10 +234,11 @@ export default function AddResearch() {
       } else {
         const err = await res.json();
         setStatus(`Error on "${study.id}": ${err.detail}`);
-        return;
+        return false;
       }
     }
     setStatus(`Successfully added ${successCount} stud${successCount === 1 ? "y" : "ies"}.`);
+    return true;
   }
 
   function handleDrop(e: React.DragEvent) {
@@ -208,13 +249,12 @@ export default function AddResearch() {
   }
 
   return (
-    <main style={{ padding: "3rem 2rem", fontFamily: "sans-serif", maxWidth: "700px", margin: "0 auto" }}>
+    <main style={{ padding: "3rem 2rem", maxWidth: "700px", margin: "0 auto" }}>
       <h1 style={{ color: "var(--color-text)" }}>Add Research</h1>
       <p style={{ color: "var(--color-text-muted)" }}>
         Upload a JSON or CSV file, or enter a study manually. Each study must follow the schema below.
       </p>
 
-      {/* Mode toggle */}
       <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.5rem" }}>
         <button
           onClick={() => setMode("upload")}
@@ -225,6 +265,7 @@ export default function AddResearch() {
             background: mode === "upload" ? "var(--color-accent)" : "white",
             color: mode === "upload" ? "white" : "var(--color-text)",
             cursor: "pointer",
+            fontFamily: "inherit",
           }}
         >
           Upload file
@@ -238,13 +279,13 @@ export default function AddResearch() {
             background: mode === "form" ? "var(--color-accent)" : "white",
             color: mode === "form" ? "white" : "var(--color-text)",
             cursor: "pointer",
+            fontFamily: "inherit",
           }}
         >
           Manual entry
         </button>
       </div>
 
-      {/* Upload mode */}
       {mode === "upload" && (
         <>
           <div
@@ -284,7 +325,6 @@ export default function AddResearch() {
         </>
       )}
 
-      {/* Manual entry mode */}
       {mode === "form" && (
         <div style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: "0.9rem" }}>
           <Field label="ID">
@@ -306,12 +346,6 @@ export default function AddResearch() {
                 <option value="Quant">Quant</option>
               </select>
             </Field>
-            <Field label="Methodology">
-              <select value={form.methodology} onChange={(e) => updateField("methodology", e.target.value)} style={inputStyle}>
-                <option value="Evaluative">Evaluative</option>
-                <option value="Generative">Generative</option>
-              </select>
-            </Field>
             <Field label="Interaction">
               <select value={form.interaction} onChange={(e) => updateField("interaction", e.target.value)} style={inputStyle}>
                 <option value="Moderated">Moderated</option>
@@ -320,6 +354,21 @@ export default function AddResearch() {
               </select>
             </Field>
           </div>
+
+          <Field label="Methodology">
+            <input
+              list="methodology-options"
+              value={form.methodology}
+              onChange={(e) => updateField("methodology", e.target.value)}
+              placeholder="e.g. Interview, Codesign Session, App Review Analysis"
+              style={inputStyle}
+            />
+            <datalist id="methodology-options">
+              {SUGGESTED_METHODOLOGIES.map((m) => (
+                <option key={m} value={m} />
+              ))}
+            </datalist>
+          </Field>
 
           <Field label="Topic">
             <input value={form.topic} onChange={(e) => updateField("topic", e.target.value)} style={inputStyle} />
@@ -339,26 +388,13 @@ export default function AddResearch() {
             </Field>
           </div>
 
-          <Field label="Merlin Features">
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-              {VALID_FEATURES.map((f) => (
-                <span
-                  key={f}
-                  onClick={() => toggleFeature(f)}
-                  style={{
-                    fontSize: "0.75rem",
-                    padding: "3px 10px",
-                    borderRadius: "999px",
-                    cursor: "pointer",
-                    border: "1px solid var(--color-border)",
-                    background: form.features.includes(f) ? "var(--color-accent)" : "white",
-                    color: form.features.includes(f) ? "white" : "var(--color-text)",
-                  }}
-                >
-                  {f}
-                </span>
-              ))}
-            </div>
+          <Field label="Features (semicolon separated — what the research is about)">
+            <input
+              value={form.featuresInput}
+              onChange={(e) => updateField("featuresInput", e.target.value)}
+              placeholder="Sound ID; Onboarding; Notifications"
+              style={inputStyle}
+            />
           </Field>
 
           <Field label="Summary">
@@ -388,6 +424,90 @@ export default function AddResearch() {
             />
           </Field>
 
+          <Field label="Artifacts">
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              {artifacts.map((a, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    fontSize: "0.85rem",
+                    padding: "0.4rem 0.6rem",
+                    background: "var(--color-tag-bg)",
+                    borderRadius: "6px",
+                  }}
+                >
+                  <span>
+                    {a.source_type === "upload" ? "📄" : "🔗"} <strong>{a.artifact_type}</strong>
+                    {a.label && ` — ${a.label}`}
+                  </span>
+                  <span onClick={() => removeArtifact(i)} style={{ cursor: "pointer", color: "#c0392b" }}>
+                    ✕
+                  </span>
+                </div>
+              ))}
+
+              <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                <input
+                  placeholder="Type (e.g. Transcript, Audio, PDF)"
+                  value={newArtifactType}
+                  onChange={(e) => setNewArtifactType(e.target.value)}
+                  style={{ ...inputStyle, width: "auto", flex: "1 1 140px" }}
+                />
+                <input
+                  placeholder="Label (optional)"
+                  value={newArtifactLabel}
+                  onChange={(e) => setNewArtifactLabel(e.target.value)}
+                  style={{ ...inputStyle, width: "auto", flex: "1 1 140px" }}
+                />
+                <input
+                  placeholder="Paste a link..."
+                  value={newArtifactLink}
+                  onChange={(e) => setNewArtifactLink(e.target.value)}
+                  style={{ ...inputStyle, width: "auto", flex: "1 1 180px" }}
+                />
+                <button
+                  onClick={addLinkArtifact}
+                  style={{
+                    padding: "0.4rem 0.8rem",
+                    borderRadius: "6px",
+                    border: "1px solid var(--color-border)",
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  Add link
+                </button>
+              </div>
+
+              <div>
+                <label
+                  style={{
+                    display: "inline-block",
+                    padding: "0.4rem 0.8rem",
+                    borderRadius: "6px",
+                    border: "1px dashed var(--color-border)",
+                    cursor: "pointer",
+                    fontSize: "0.85rem",
+                  }}
+                >
+                  📎 Or upload a PDF
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) addFileArtifact(file);
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+          </Field>
+
           <button
             onClick={submitForm}
             style={{
@@ -399,6 +519,7 @@ export default function AddResearch() {
               borderRadius: "6px",
               cursor: "pointer",
               alignSelf: "flex-start",
+              fontFamily: "inherit",
             }}
           >
             Add Study
@@ -410,7 +531,6 @@ export default function AddResearch() {
         </div>
       )}
 
-      {/* Required fields table */}
       <h3 style={{ marginTop: "2.5rem" }}>Required Fields</h3>
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
         <thead>
@@ -433,30 +553,6 @@ export default function AddResearch() {
         </tbody>
       </table>
 
-      {/* Valid feature values */}
-      <div style={{ marginTop: "1.5rem", padding: "1rem", background: "var(--color-tag-bg)", borderRadius: "8px" }}>
-        <p style={{ fontSize: "0.8rem", fontFamily: "monospace", margin: "0 0 0.5rem", color: "var(--color-text-muted)" }}>
-          VALID VALUES FOR FEATURES
-        </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-          {VALID_FEATURES.map((f) => (
-            <span
-              key={f}
-              style={{
-                fontSize: "0.75rem",
-                background: "white",
-                border: "1px solid var(--color-border)",
-                borderRadius: "4px",
-                padding: "2px 8px",
-              }}
-            >
-              {f}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Collapsible: Example JSON */}
       <div style={{ marginTop: "1rem", borderTop: "1px solid var(--color-border)", paddingTop: "0.75rem" }}>
         <div
           onClick={() => setShowExample(!showExample)}
@@ -481,7 +577,6 @@ export default function AddResearch() {
         )}
       </div>
 
-      {/* Collapsible: CSV Column Reference */}
       <div style={{ marginTop: "0.5rem", borderTop: "1px solid var(--color-border)", paddingTop: "0.75rem" }}>
         <div
           onClick={() => setShowCsv(!showCsv)}
@@ -497,13 +592,9 @@ export default function AddResearch() {
                 topic, interaction, participants, researcher, features, summary, tags, startingQuestions, transcriptLink</code>
             </p>
             <p>
-              For list fields (<code>features</code>, <code>tags</code>, <code>startingQuestions</code>), separate
-              multiple values within a cell using a semicolon — e.g. <code>Sound ID;Onboarding</code>
+              For list fields, separate multiple values within a cell using a semicolon — e.g. <code>Sound ID;Onboarding</code>
             </p>
-            <p>
-              Note: demographics and direct quotes aren't supported via CSV since they're nested objects — use
-              JSON if a study needs those.
-            </p>
+            <p>Note: artifacts aren't supported via CSV yet — use manual entry or JSON for those.</p>
           </div>
         )}
       </div>
