@@ -2,6 +2,7 @@
 
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -35,8 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             background: "var(--color-bg)",
           }}
         >
-          <Link href="/ask" style={{ fontWeight: 700, textDecoration: "none", color: "var(--color-text)", fontSize: "1.1rem" }}>
-            🐦 Bird Brain
+          <Link href="/ask" style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: 700, textDecoration: "none", color: "var(--color-text)", fontSize: "1rem" }}>
+            <Image src="/images/icons/Container.png" alt="Bird Brain" width={28} height={28} />
+            Bird Brain
           </Link>
           <Link href="/ask" style={getLinkStyle("/ask")}>
             Ask
