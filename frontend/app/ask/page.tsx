@@ -143,15 +143,9 @@ export default function Ask() {
                     </div>
                   ) : (
                     <div style={{ display: "flex", gap: "0.5rem" }}>
-                      <div
-                        style={{
-                          width: "24px",
-                          height: "24px",
-                          borderRadius: "50%",
-                          background: "var(--color-accent)",
-                          flexShrink: 0,
-                        }}
-                      />
+                      <div style={{ flexShrink: 0 }}>
+                        <BirdImage alt="Assistant" width={24} height={24} rounded={true} />
+                      </div>
                       <div style={{ flex: 1 }}>
                         <p style={{ margin: "0 0 0.75rem" }}>{m.text}</p>
                         {m.studies?.map((s) => (
