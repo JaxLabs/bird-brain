@@ -105,8 +105,8 @@ export default function Ask() {
           {!started ? (
             // Landing state
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-              <div style={{ width: "100%", marginBottom: "1.5rem" }}>
-                <BirdImage alt="Bird photo" width={800} height={250} style={{ width: "100%", height: "auto", objectFit: "contain" }} />
+              <div style={{ width: "100%", marginBottom: "1.5rem", overflow: "hidden" }}>
+                <BirdImage alt="Bird photo" width={800} height={250} style={{ width: "100%", height: "auto", objectFit: "contain", borderRadius: "0 !important" }} />
               </div>
               <h1 style={{ margin: "0 0 0.75rem 0", color: "var(--color-text)", fontSize: "2rem" }}>Research Assistant</h1>
               <p style={{ color: "var(--color-text-muted)", margin: "0 0 2rem 0", maxWidth: "600px" }}>
@@ -121,10 +121,12 @@ export default function Ask() {
                       background: "var(--color-prompt-bg)",
                       border: "1px solid var(--color-border)",
                       borderRadius: "8px",
-                      padding: "0.75rem",
+                      padding: "1rem 0.75rem",
                       fontSize: "0.9rem",
                       cursor: "pointer",
                       color: "var(--color-text)",
+                      textAlign: "center",
+                      lineHeight: "1.4",
                     }}
                   >
                     {p}
