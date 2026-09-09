@@ -104,14 +104,14 @@ export default function Ask() {
         <div style={{ flex: 1, overflowY: "auto", padding: "2rem 4rem" }}>
           {!started ? (
             // Landing state
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", maxWidth: "900px", margin: "0 auto" }}>
               <div style={{ width: "100%", marginBottom: "1.5rem", position: "relative", paddingTop: "25%", overflow: "hidden" }}>
                 <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: "0" }}>
                   <BirdImage alt="Bird photo" width={800} height={250} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
               </div>
-              <h1 style={{ margin: "0 0 0.75rem 0", color: "var(--color-text)", fontSize: "2rem" }}>Research Assistant</h1>
-              <p style={{ color: "var(--color-text-muted)", margin: "0 0 2rem 0" }}>
+              <h1 style={{ margin: "0 0 0.75rem 0", color: "var(--color-text)", fontSize: "2rem", width: "100%" }}>Research Assistant</h1>
+              <p style={{ color: "var(--color-text-muted)", margin: "0 0 2rem 0", width: "100%" }}>
                 Ask about past studies at Merlin. I'll pull up the most relevant research from our archive.
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", width: "100%" }}>
