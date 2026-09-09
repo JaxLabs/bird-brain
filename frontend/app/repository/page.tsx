@@ -41,6 +41,19 @@ function methodologyColor(m: string) {
   return { bg: "var(--color-tag-bg)", text: "var(--color-tag-text)" };
 }
 
+const BASELINE_FEATURES = [
+  "Sound ID",
+  "LifeList",
+  "Explore",
+  "Bird Packs",
+  "Species Search",
+  "Photo ID",
+  "Song ID",
+  "Notifications",
+  "Offline Mode",
+  "User Onboarding",
+];
+
 export default function Repository() {
   const [studies, setStudies] = useState<Study[]>([]);
   const [filterOptions, setFilterOptions] = useState<Filters>({ features: [], tags: [] });
@@ -55,8 +68,14 @@ export default function Repository() {
   useEffect(() => {
     fetch("http://localhost:8000/filters")
       .then((res) => res.json())
-      .then(setFilterOptions)
-      .catch((e) => console.error("Failed to load filters:", e));
+      .then((data) => {
+        const features = data.features.length > 0 ? data.features : BASELINE_FEATURES;
+        setFilterOptions({ features, tags: data.tags });
+      })
+      .catch((e) => {
+        console.error("Failed to load filters:", e);
+        setFilterOptions({ features: BASELINE_FEATURES, tags: [] });
+      });
   }, []);
 
   useEffect(() => {
@@ -126,7 +145,7 @@ export default function Repository() {
           style={{ display: "flex", justifyContent: "space-between", cursor: "pointer", marginTop: "1.25rem", fontWeight: 600, fontSize: "0.9rem" }}
         >
           <span>Merlin Features</span>
-          <span>{featuresOpen ? "▲" : "▼"}</span>
+          <span style={{ fontSize: "0.7rem", fontWeight: "bold" }}>{featuresOpen ? "−" : "+"}</span>
         </div>
         {featuresOpen && (
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginTop: "0.6rem" }}>
@@ -142,8 +161,8 @@ export default function Repository() {
           onClick={() => setTopicsOpen(!topicsOpen)}
           style={{ display: "flex", justifyContent: "space-between", cursor: "pointer", marginTop: "1.75rem", fontWeight: 600, fontSize: "0.9rem" }}
         >
-          <span>Topic</span>
-          <span>{topicsOpen ? "▲" : "▼"}</span>
+          <span>Research Tags</span>
+          <span style={{ fontSize: "0.7rem", fontWeight: "bold" }}>{topicsOpen ? "−" : "+"}</span>
         </div>
         {topicsOpen && (
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginTop: "0.6rem" }}>
