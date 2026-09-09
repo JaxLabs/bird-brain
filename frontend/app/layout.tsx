@@ -9,9 +9,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   const getLinkStyle = (href: string) => ({
     textDecoration: "none",
-    color: pathname === href ? "var(--color-accent)" : "var(--color-text-muted)",
+    color: pathname === href ? "white" : "var(--color-text-muted)",
+    background: pathname === href ? "var(--color-accent)" : "transparent",
+    padding: "0.5rem 0.75rem",
+    borderRadius: "6px",
     fontWeight: pathname === href ? 600 : 500,
-    transition: "color 0.2s ease",
+    transition: "all 0.2s ease",
   });
 
   return (
