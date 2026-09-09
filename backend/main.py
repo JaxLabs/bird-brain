@@ -46,58 +46,59 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 @app.post("/ask")
 def ask_question(payload: dict):
-    question = payload.get("question", "")
-    if not question:
-        raise HTTPException(status_code=400, detail="Question is required")
+    try:
+        question = payload.get("question", "")
+        if not question:
+            raise HTTPException(status_code=400, detail="Question is required")
 
-    # 1. Embed the question
-    response = ollama_client.embed(model="nomic-embed-text", input=question)
-    query_vector = response["embeddings"][0]
+        # 1. Embed the question
+        response = ollama_client.embed(model="nomic-embed-text", input=question)
+        query_vector = response["embeddings"][0]
 
-    # 2. Search LanceDB for the most relevant studies
-    db = lancedb.connect("./lancedb")
-    table = db.open_table("studies")
-    results = table.search(query_vector).limit(3).to_list()
-    matched_ids = [r["study_id"] for r in results]
+        # 2. Search LanceDB for the most relevant studies
+        db = lancedb.connect("./lancedb")
+        table = db.open_table("studies")
+        results = table.search(query_vector).limit(3).to_list()
+        matched_ids = [r["study_id"] for r in results]
 
-    # 3. Pull full study data for the matches
-    import sqlite3
-    conn = sqlite3.connect("bird_brain.db")
-    conn.row_factory = sqlite3.Row
-    matched_studies = []
-    for study_id in matched_ids:
-        row = conn.execute("SELECT * FROM studies WHERE id=?", (study_id,)).fetchone()
-        if not row:
-            continue
-        quotes = [dict(q) for q in conn.execute(
-            "SELECT text, participant FROM quotes WHERE study_id=?", (study_id,))]
-        tags = [t["tag"] for t in conn.execute(
-            "SELECT tag FROM study_tags WHERE study_id=?", (study_id,))]
-        # Parse artifacts/links
-        artifacts = []
-        try:
-            artifacts = json.loads(row["additional_links"] or "[]")
-        except:
-            pass
+        # 3. Pull full study data for the matches
+        import sqlite3
+        conn = sqlite3.connect("bird_brain.db")
+        conn.row_factory = sqlite3.Row
+        matched_studies = []
+        for study_id in matched_ids:
+            row = conn.execute("SELECT * FROM studies WHERE id=?", (study_id,)).fetchone()
+            if not row:
+                continue
+            quotes = [dict(q) for q in conn.execute(
+                "SELECT text, participant FROM quotes WHERE study_id=?", (study_id,))]
+            tags = [t["tag"] for t in conn.execute(
+                "SELECT tag FROM study_tags WHERE study_id=?", (study_id,))]
+            # Parse artifacts/links
+            artifacts = []
+            try:
+                artifacts = json.loads(row["additional_links"] or "[]")
+            except:
+                pass
 
-        matched_studies.append({
-            "id": row["id"],
-            "title": row["title"],
-            "date": row["date"],
-            "summary": row["summary"],
-            "tags": tags,
-            "quotes": quotes,
-            "artifacts": artifacts,
-        })
-    conn.close()
+            matched_studies.append({
+                "id": row["id"],
+                "title": row["title"],
+                "date": row["date"],
+                "summary": row["summary"],
+                "tags": tags,
+                "quotes": quotes,
+                "artifacts": artifacts,
+            })
+        conn.close()
 
-    # 4. Build context for the LLM
-    context_text = "\n\n".join(
-        f"Study: {s['title']}\nSummary: {s['summary']}"
-        for s in matched_studies
-    )
+        # 4. Build context for the LLM
+        context_text = "\n\n".join(
+            f"Study: {s['title']}\nSummary: {s['summary']}"
+            for s in matched_studies
+        )
 
-    prompt = f"""You are a research assistant. Answer the question using ONLY the study summaries below. Keep the answer to 2-3 sentences. If the studies don't cover the question, say so.
+        prompt = f"""You are a research assistant. Answer the question using ONLY the study summaries below. Keep the answer to 2-3 sentences. If the studies don't cover the question, say so.
 
 Studies:
 {context_text}
@@ -106,14 +107,19 @@ Question: {question}
 
 Answer:"""
 
-    # 5. Ask the LLM
-    llm_response = ollama_client.chat(
-        model="qwen3:8b",
-        messages=[{"role": "user", "content": prompt}],
-    )
-    answer = llm_response["message"]["content"]
+        # 5. Ask the LLM
+        llm_response = ollama_client.chat(
+            model="qwen3:8b",
+            messages=[{"role": "user", "content": prompt}],
+        )
+        answer = llm_response["message"]["content"]
 
-    return {"answer": answer, "studies": matched_studies}
+        return {"answer": answer, "studies": matched_studies}
+    except Exception as e:
+        import traceback
+        print(f"ERROR in /ask: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
 @app.get("/health")
 def health():
@@ -663,3 +669,56 @@ def export_study_json(study_id: str):
 
     conn.close()
     return study
+@app.get("/filters")
+def get_filters():
+    import sqlite3
+    conn = sqlite3.connect("../bird_brain.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    
+    # Get unique tags
+    cursor.execute("SELECT DISTINCT tags FROM studies WHERE tags IS NOT NULL")
+    tags_raw = cursor.fetchall()
+    tags = set()
+    for row in tags_raw:
+        if row["tags"]:
+            import json
+            tag_list = json.loads(row["tags"])
+            tags.update(tag_list)
+    
+    # Get unique features (empty for now - using baseline)
+    features = []
+    
+    conn.close()
+    
+    return {
+        "features": features,
+        "tags": sorted(list(tags))
+    }
+
+@app.get("/filters")
+def get_filters():
+    import sqlite3
+    conn = sqlite3.connect("../bird_brain.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    
+    # Get unique tags
+    cursor.execute("SELECT DISTINCT tags FROM studies WHERE tags IS NOT NULL")
+    tags_raw = cursor.fetchall()
+    tags = set()
+    for row in tags_raw:
+        if row["tags"]:
+            import json
+            tag_list = json.loads(row["tags"])
+            tags.update(tag_list)
+    
+    # Get unique features (empty for now - using baseline)
+    features = []
+    
+    conn.close()
+    
+    return {
+        "features": features,
+        "tags": sorted(list(tags))
+    }

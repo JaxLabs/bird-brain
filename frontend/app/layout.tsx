@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { IoHelp, IoLibrary } from "react-icons/io5";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -40,10 +41,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Image src="/images/icons/Container.png" alt="Bird Brain" width={28} height={28} />
             Bird Brain
           </Link>
-          <Link href="/ask" style={getLinkStyle("/ask")}>
+          <Link href="/ask" style={{ ...getLinkStyle("/ask"), display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <IoHelp size={16} />
             Ask
           </Link>
-          <Link href="/repository" style={getLinkStyle("/repository")}>
+          <Link href="/repository" style={{ ...getLinkStyle("/repository"), display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <IoLibrary size={16} />
             Repository
           </Link>
           <Link href="/add-research" style={getLinkStyle("/add-research")}>

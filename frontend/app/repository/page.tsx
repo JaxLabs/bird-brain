@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { DocumentIcons, DemographicsIcon } from "./icons";
+import { IoList, IoGrid } from "react-icons/io5";
+import { IoPeople } from "react-icons/io5";
+import { FiUser } from "react-icons/fi";
 
 type Study = {
   id: string;
@@ -64,6 +68,8 @@ export default function Repository() {
   const [view, setView] = useState<"list" | "grid">("list");
   const [featuresOpen, setFeaturesOpen] = useState(true);
   const [topicsOpen, setTopicsOpen] = useState(true);
+  const [docsOpen, setDocsOpen] = useState(true);
+  const [demographicsOpen, setDemographicsOpen] = useState(true);
 
   useEffect(() => {
     fetch("http://localhost:8000/filters")
@@ -109,13 +115,14 @@ export default function Repository() {
 
   const filterPillStyle = (active: boolean): React.CSSProperties => ({
     fontSize: "0.8rem",
-    padding: "5px 12px",
+    padding: "6px 14px",
     borderRadius: "999px",
-    border: "1px solid var(--color-border)",
-    background: active ? "var(--color-accent)" : "white",
-    color: active ? "white" : "var(--color-text)",
+    border: active ? "1px solid #2e7d32" : "1px solid var(--color-border)",
+    background: active ? "#e8f5e9" : "white",
+    color: active ? "#2e7d32" : "var(--color-text)",
     cursor: "pointer",
     display: "inline-block",
+    fontWeight: active ? 600 : 400,
   });
 
   return (
@@ -177,33 +184,41 @@ export default function Repository() {
 
       {/* Main content */}
       <main style={{ flex: 1, padding: "1.5rem 2rem", maxWidth: selectedStudy ? "calc(100% - 340px)" : "100%" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <span style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", whiteSpace: "nowrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <span style={{ fontSize: "0.75rem", color: "var(--color-text-muted)", whiteSpace: "nowrap" }}>
             {filtered.length} of {studies.length}
           </span>
-          <div style={{ display: "flex", border: "1px solid var(--color-border)", borderRadius: "6px", overflow: "hidden" }}>
+          <div style={{ display: "flex", border: "1px solid #e0e0e0", borderRadius: "4px", overflow: "hidden" }}>
             <button
               onClick={() => setView("list")}
               style={{
-                padding: "0.4rem 0.6rem",
+                padding: "0.3rem 0.4rem",
                 border: "none",
-                background: view === "list" ? "var(--color-tag-bg)" : "white",
+                background: view === "list" ? "#f0f0f0" : "white",
                 cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: view === "list" ? "#2e7d32" : "#999",
               }}
             >
-              ☰
+              <IoList size={16} />
             </button>
             <button
               onClick={() => setView("grid")}
               style={{
-                padding: "0.4rem 0.6rem",
+                padding: "0.3rem 0.4rem",
                 border: "none",
-                borderLeft: "1px solid var(--color-border)",
-                background: view === "grid" ? "var(--color-tag-bg)" : "white",
+                borderLeft: "1px solid #e0e0e0",
+                background: view === "grid" ? "#f0f0f0" : "white",
                 cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: view === "grid" ? "#2e7d32" : "#999",
               }}
             >
-              ▦
+              <IoGrid size={16} />
             </button>
           </div>
         </div>
@@ -217,38 +232,54 @@ export default function Repository() {
           }}
         >
           {filtered.map((study) => {
-            const rtColor = researchTypeColor(study.researchType);
             const mColor = methodologyColor(study.methodology);
+            const isSelected = selectedStudy?.id === study.id;
             return (
               <div
                 key={study.id}
                 onClick={() => openStudy(study.id)}
                 style={{
-                  padding: "1.1rem 0",
+                  padding: view === "list" ? "1.25rem 0" : "1.25rem",
                   borderBottom: view === "list" ? "1px solid var(--color-border)" : "none",
-                  border: view === "grid" ? "1px solid var(--color-border)" : undefined,
+                  border: view === "grid" ? "1px solid var(--color-border)" : "none",
                   borderRadius: view === "grid" ? "10px" : 0,
-                  padding: view === "grid" ? "1.1rem" : "1.1rem 0",
                   cursor: "pointer",
+                  backgroundColor: isSelected ? "#f0f7f0" : view === "grid" ? "#fafafa" : "transparent",
+                  borderLeft: view === "list" && isSelected ? "4px solid #2e7d32" : "none",
+                  paddingLeft: view === "list" && isSelected ? "calc(1.25rem - 4px)" : "1.25rem",
+                  transition: "background-color 0.2s",
                 }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <div style={{ display: "flex", gap: "0.4rem" }}>
-                    <span style={{ fontSize: "0.75rem", padding: "2px 8px", borderRadius: "4px", background: rtColor.bg, color: rtColor.text, fontWeight: 600 }}>
-                      {study.researchType}
-                    </span>
-                    <span style={{ fontSize: "0.75rem", padding: "2px 8px", borderRadius: "4px", background: mColor.bg, color: mColor.text, fontWeight: 600 }}>
-                      {study.methodology}
-                    </span>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.6rem" }}>
+                  <div style={{ display: "flex", gap: "0.4rem", flex: 1 }}>
+                    {study.tags.slice(0, 2).map((tag) => (
+                      <span
+                        key={tag}
+                        style={{
+                          fontSize: "0.7rem",
+                          padding: "4px 10px",
+                          borderRadius: "20px",
+                          background: "#e0e0e0",
+                          color: "#666",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                  <span style={{ fontSize: "0.8rem", color: "var(--color-text-muted)" }}>
-                    {new Date(study.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                  </span>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", marginBottom: "0.25rem" }}>
+                      {new Date(study.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </div>
+                    <div style={{ fontSize: "0.8rem", color: "var(--color-text-muted)", display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "0.3rem" }}>
+                      <IoPeople size={14} /> {study.participants}
+                    </div>
+                  </div>
                 </div>
 
-                <h3 style={{ margin: "0.6rem 0 0.4rem 0", fontSize: "1.05rem" }}>{study.title}</h3>
-                <p style={{ margin: "0 0 0.5rem", color: "var(--color-text-muted)", fontSize: "0.9rem" }}>{study.summary}</p>
-                <small style={{ color: "var(--color-text-muted)" }}>👥 {study.participants} • {study.researcher}</small>
+                <h3 style={{ margin: "0.4rem 0 0.6rem 0", fontSize: "1.05rem", fontWeight: 600 }}>{study.title}</h3>
+                <p style={{ margin: "0", color: "var(--color-text-muted)", fontSize: "0.9rem", lineHeight: 1.4 }}>{study.summary}</p>
               </div>
             );
           })}
@@ -259,27 +290,29 @@ export default function Repository() {
       {selectedStudy && (
         <aside
           style={{
-            width: "340px",
+            width: "380px",
             flexShrink: 0,
             borderLeft: "1px solid var(--color-border)",
             padding: "1.5rem",
-            height: "100vh",
-            position: "sticky",
-            top: 0,
+            height: "calc(100vh - 57px)",
             overflowY: "auto",
+            overflowX: "hidden",
+            backgroundColor: "white",
+            scrollBehavior: "smooth",
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", gap: "0.4rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1rem" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", flex: 1 }}>
               {selectedStudy.tags.map((tag) => (
                 <span
                   key={tag}
                   style={{
-                    fontSize: "0.7rem",
-                    background: "var(--color-tag-bg)",
-                    color: "var(--color-tag-text)",
-                    borderRadius: "4px",
-                    padding: "2px 8px",
+                    fontSize: "0.8rem",
+                    background: "#e0e0e0",
+                    color: "#666",
+                    borderRadius: "20px",
+                    padding: "6px 14px",
+                    fontWeight: 500,
                   }}
                 >
                   {tag}
@@ -288,56 +321,142 @@ export default function Repository() {
             </div>
             <button
               onClick={() => setSelectedStudy(null)}
-              style={{ border: "none", background: "none", cursor: "pointer", fontSize: "1rem" }}
+              style={{ border: "none", background: "none", cursor: "pointer", fontSize: "1.5rem", marginLeft: "0.5rem" }}
             >
               ✕
             </button>
           </div>
 
-          <h3 style={{ marginBottom: "0.25rem" }}>{selectedStudy.title}</h3>
-          <small style={{ color: "var(--color-text-muted)" }}>
-            {selectedStudy.date} · {selectedStudy.participants} participants · {selectedStudy.researcher}
+          <h2 style={{ margin: "1rem 0 0.5rem 0", fontSize: "1.3rem", fontWeight: 600 }}>{selectedStudy.title}</h2>
+          <small style={{ color: "var(--color-text-muted)", fontSize: "0.9rem" }}>
+            {new Date(selectedStudy.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · {selectedStudy.participants} participants · {selectedStudy.researcher}
           </small>
 
-          <p style={{ marginTop: "1rem" }}>{selectedStudy.summary}</p>
+          <p style={{ marginTop: "1.25rem", lineHeight: 1.6, fontSize: "0.95rem" }}>{selectedStudy.summary}</p>
 
-          {selectedStudy.quotes.map((q, i) => (
-            <div
-              key={i}
-              style={{
-                borderLeft: "2px solid var(--color-accent)",
-                paddingLeft: "0.75rem",
-                marginBottom: "0.75rem",
-              }}
-            >
-              <p style={{ fontStyle: "italic", margin: 0 }}>"{q.text}"</p>
-              {q.participant && (
-                <small style={{ color: "var(--color-text-muted)" }}>- {q.participant}</small>
-              )}
-            </div>
-          ))}
-
-          {selectedStudy.documents.length > 0 && (
+          {selectedStudy.quotes.length > 0 && (
             <>
-              <h4 style={{ marginTop: "1.5rem" }}>Documents</h4>
-              {selectedStudy.documents.map((doc, i) => (
-                <div key={i} style={{ fontSize: "0.9rem", marginBottom: "6px" }}>
-                  📄 {doc.doc_type}
+              {selectedStudy.quotes.map((q, i) => (
+                <div
+                  key={i}
+                  style={{
+                    borderLeft: "3px solid #4caf50",
+                    paddingLeft: "1rem",
+                    marginTop: "1rem",
+                    marginBottom: "0.75rem",
+                  }}
+                >
+                  <p style={{ margin: "0 0 0.5rem 0", fontSize: "0.95rem" }}>{q.text}</p>
+                  {q.participant && (
+                    <small style={{ color: "var(--color-text-muted)", fontSize: "0.85rem" }}>- {q.participant}</small>
+                  )}
                 </div>
               ))}
             </>
           )}
 
-          {selectedStudy.demographics.length > 0 && (
+          {selectedStudy.documents.length > 0 && (
             <>
-              <h4 style={{ marginTop: "1.5rem" }}>Demographics</h4>
-              {selectedStudy.demographics.map((d, i) => (
-                <div key={i} style={{ fontSize: "0.9rem", marginBottom: "6px" }}>
-                  <strong>{d.role}</strong>
-                  {d.age_range && <span style={{ color: "var(--color-text-muted)" }}> · Age {d.age_range}</span>}
-                </div>
-              ))}
+              <h4
+                onClick={() => setDocsOpen(!docsOpen)}
+                style={{
+                  marginTop: "1.5rem",
+                  marginBottom: "1rem",
+                  fontSize: "1rem",
+                  fontWeight: 600,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  cursor: "pointer"
+                }}
+              >
+                <span>Documents</span>
+                <span style={{ fontSize: "0.9rem", fontWeight: "bold" }}>{docsOpen ? "−" : "+"}</span>
+              </h4>
+              {docsOpen && <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                {selectedStudy.documents.map((doc, i) => {
+                  const icon = DocumentIcons[doc.doc_type as keyof typeof DocumentIcons];
+                  return (
+                    <a
+                      key={i}
+                      href={doc.file_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        padding: "1rem",
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "12px",
+                        fontSize: "0.95rem",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "1rem",
+                        cursor: "pointer",
+                        backgroundColor: "#fafafa",
+                        textDecoration: "none",
+                        color: "inherit",
+                        transition: "background-color 0.2s",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#f0f0f0")}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#fafafa")}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        {icon || "📄"}
+                      </div>
+                      <span style={{ fontWeight: 500 }}>{doc.doc_type}</span>
+                    </a>
+                  );
+                })}
+              </div>}
             </>
+          )}
+
+          <h4
+            onClick={() => setDemographicsOpen(!demographicsOpen)}
+            style={{
+              marginTop: "1.5rem",
+              marginBottom: "1rem",
+              fontSize: "1rem",
+              fontWeight: 600,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              cursor: "pointer"
+            }}
+          >
+            <span>Participants</span>
+            <span style={{ fontSize: "0.9rem", fontWeight: "bold" }}>{demographicsOpen ? "−" : "+"}</span>
+          </h4>
+          {demographicsOpen && (
+            <div
+              style={{
+                padding: "1rem",
+                border: "1px solid #e0e0e0",
+                borderRadius: "12px",
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+                backgroundColor: "#fafafa",
+              }}
+            >
+              <div
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  backgroundColor: "#e8f5e9",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+              >
+                <FiUser size={20} color="#2e7d32" />
+              </div>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: "1rem" }}>{selectedStudy.participants}</div>
+                <div style={{ color: "var(--color-text-muted)", fontSize: "0.85rem" }}>participants</div>
+              </div>
+            </div>
           )}
         </aside>
       )}
