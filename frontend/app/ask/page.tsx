@@ -104,16 +104,15 @@ export default function Ask() {
         <div style={{ flex: 1, overflowY: "auto" }}>
           {!started ? (
             // Landing state
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", maxWidth: "900px", margin: "0 auto", padding: "0 2rem" }}>
               <div style={{ width: "100%", marginBottom: "1.5rem", borderRadius: "3px", overflow: "hidden" }}>
                 <BirdImage alt="Bird photo" width={800} height={250} style={{ width: "100%", height: "auto", objectFit: "contain" }} />
               </div>
-              <div style={{ maxWidth: "900px", width: "100%", padding: "0 2rem" }}>
-                <h1 style={{ margin: "0 0 0.75rem 0", color: "var(--color-text)", fontSize: "2rem" }}>Research Assistant</h1>
-                <p style={{ color: "var(--color-text-muted)", margin: "0 0 2rem 0" }}>
-                  Ask about past studies at Merlin. I'll pull up the most relevant research from our archive.
-                </p>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+              <h1 style={{ margin: "0 0 0.75rem 0", color: "var(--color-text)", fontSize: "2rem" }}>Research Assistant</h1>
+              <p style={{ color: "var(--color-text-muted)", margin: "0 0 2rem 0" }}>
+                Ask about past studies at Merlin. I'll pull up the most relevant research from our archive.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", width: "100%" }}>
                 {SUGGESTED_PROMPTS.map((p) => (
                   <div
                     key={p}
