@@ -105,7 +105,9 @@ export default function Ask() {
           {!started ? (
             // Landing state
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginTop: "2rem" }}>
-              <BirdImage alt="Bird photo" width={528} height={171} />
+              <div style={{ width: "100%", marginBottom: "1.5rem" }}>
+                <BirdImage alt="Bird photo" width={528} height={171} style={{ width: "100%", height: "auto" }} />
+              </div>
               <h1 style={{ marginTop: "1.5rem", color: "var(--color-text)" }}>Research Assistant</h1>
               <p style={{ color: "var(--color-text-muted)" }}>
                 Ask about past studies at Merlin. I'll pull up the most relevant research from our archive.
