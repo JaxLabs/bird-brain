@@ -13,7 +13,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     background: pathname === href ? "var(--color-accent)" : "transparent",
     padding: "0.5rem 0.75rem",
     borderRadius: "6px",
-    fontWeight: pathname === href ? 600 : 500,
+    fontSize: "13.13px",
+    fontWeight: 400,
     transition: "all 0.2s ease",
   });
 

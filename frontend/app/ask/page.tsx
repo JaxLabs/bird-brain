@@ -106,6 +106,7 @@ export default function Ask() {
                     key={p}
                     onClick={() => askQuestion(p)}
                     style={{
+                      background: "var(--color-prompt-bg)",
                       border: "1px solid var(--color-border)",
                       borderRadius: "8px",
                       padding: "0.75rem",
