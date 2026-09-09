@@ -7,3 +7,7 @@ bird_brain.db
 lancedb/
 .env
 .DS_Store
+# Research data - PRIVATE, do not commit
+research_studies.json
+research_studies.csv
+extract_research_data.py
