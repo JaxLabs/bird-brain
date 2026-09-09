@@ -101,14 +101,14 @@ export default function Ask() {
     <div style={{ display: "flex", height: "calc(100vh - 57px)", fontFamily: "sans-serif" }}>
       {/* Main column */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", width: "100%" }}>
-        <div style={{ flex: 1, overflowY: "auto", padding: "2rem 4rem" }}>
+        <div style={{ flex: 1, overflowY: "auto" }}>
           {!started ? (
             // Landing state
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
               <div style={{ width: "100%", marginBottom: "1.5rem", borderRadius: "3px", overflow: "hidden" }}>
                 <BirdImage alt="Bird photo" width={800} height={250} style={{ width: "100%", height: "auto", objectFit: "contain" }} />
               </div>
-              <div style={{ maxWidth: "900px", width: "100%" }}>
+              <div style={{ maxWidth: "900px", width: "100%", padding: "0 2rem" }}>
                 <h1 style={{ margin: "0 0 0.75rem 0", color: "var(--color-text)", fontSize: "2rem" }}>Research Assistant</h1>
                 <p style={{ color: "var(--color-text-muted)", margin: "0 0 2rem 0" }}>
                   Ask about past studies at Merlin. I'll pull up the most relevant research from our archive.
@@ -138,7 +138,7 @@ export default function Ask() {
             </div>
           ) : (
             // Chat state
-            <div>
+            <div style={{ padding: "2rem" }}>
               {messages.map((m, i) => (
                 <div key={i} style={{ marginBottom: "1.5rem" }}>
                   {m.role === "user" ? (
