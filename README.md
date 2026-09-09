@@ -17,7 +17,7 @@ Open Terminal (search for "Terminal" in Spotlight or start menu).
 
 **Terminal Window 1:**
 ```
-cd ~bird-brain/backend
+cd ~/bird-brain/backend
 python3 -m venv venv
 source venv/bin/activate
 pip install fastapi uvicorn lancedb ollama
