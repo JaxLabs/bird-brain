@@ -104,7 +104,7 @@ export default function Ask() {
         <div style={{ flex: 1, overflowY: "auto" }}>
           {!started ? (
             // Landing state
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", maxWidth: "900px", margin: "0 auto", padding: "0 2rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", maxWidth: "900px", margin: "3rem auto 0", padding: "0 3rem" }}>
               <div style={{ width: "100%", marginBottom: "1.5rem", borderRadius: "3px", overflow: "hidden" }}>
                 <BirdImage alt="Bird photo" width={800} height={250} style={{ width: "100%", height: "auto", objectFit: "contain" }} />
               </div>
@@ -136,7 +136,7 @@ export default function Ask() {
             </div>
           ) : (
             // Chat state
-            <div style={{ padding: "2rem" }}>
+            <div style={{ padding: "3rem", maxWidth: "900px", margin: "0 auto", width: "100%" }}>
               {messages.map((m, i) => (
                 <div key={i} style={{ marginBottom: "1.5rem" }}>
                   {m.role === "user" ? (
@@ -223,39 +223,42 @@ export default function Ask() {
         </div>
 
         {/* Input bar - always visible */}
-        <div style={{ padding: "1rem 2rem", borderTop: "1px solid var(--color-border)" }}>
-          <div style={{ display: "flex", gap: "0.5rem" }}>
-            <input
-              type="text"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && askQuestion(question)}
-              placeholder="Ask about Merlin research..."
-              style={{
-                flex: 1,
-                padding: "0.6rem 0.9rem",
-                borderRadius: "8px",
-                border: "1px solid var(--color-border)",
-              }}
-            />
-            <button
-              onClick={() => askQuestion(question)}
-              disabled={loading}
-              style={{
-                padding: "0.6rem 1rem",
-                background: "var(--color-accent)",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-              }}
-            >
-              ➤
-            </button>
+        <div style={{ borderTop: "1px solid var(--color-border)", padding: "1rem 2rem 4rem 2rem", margin: "0 auto", maxWidth: "900px", width: "100%" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <input
+                type="text"
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && askQuestion(question)}
+                placeholder="Ask about Merlin research..."
+                style={{
+                  flex: 1,
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  border: "1px solid var(--color-border)",
+                  fontSize: "1rem",
+                }}
+              />
+              <button
+                onClick={() => askQuestion(question)}
+                disabled={loading}
+                style={{
+                  padding: "0.6rem 1rem",
+                  background: "var(--color-accent)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                }}
+              >
+                ➤
+              </button>
+            </div>
+            <p style={{ textAlign: "center", fontSize: "0.75rem", color: "var(--color-text-muted)", marginTop: "0.5rem" }}>
+              AI isn't always right — verify findings in the source study
+            </p>
           </div>
-          <p style={{ textAlign: "center", fontSize: "0.75rem", color: "var(--color-text-muted)", marginTop: "0.5rem" }}>
-            AI isn't always right — verify findings in the source study
-          </p>
         </div>
       </div>
 

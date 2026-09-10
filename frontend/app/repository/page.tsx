@@ -65,7 +65,7 @@ export default function Repository() {
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedStudy, setSelectedStudy] = useState<StudyDetail | null>(null);
-  const [view, setView] = useState<"list" | "grid">("list");
+  const [view, setView] = useState<"list" | "grid">("grid");
   const [featuresOpen, setFeaturesOpen] = useState(true);
   const [topicsOpen, setTopicsOpen] = useState(true);
   const [docsOpen, setDocsOpen] = useState(true);
@@ -183,7 +183,7 @@ export default function Repository() {
       </aside>
 
       {/* Main content */}
-      <main style={{ flex: 1, padding: "1.5rem 2rem", maxWidth: selectedStudy ? "calc(100% - 340px)" : "100%" }}>
+      <main style={{ flex: 1, padding: "3rem 4rem", maxWidth: selectedStudy ? "calc(100% - 340px)" : "100%", margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
           <span style={{ fontSize: "0.75rem", color: "var(--color-text-muted)", whiteSpace: "nowrap" }}>
             {filtered.length} of {studies.length}
