@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <title>Bird Brain</title>
         <meta name="description" content="Research assistant for Merlin" />
       </head>
-      <body style={{ margin: 0 }}>
+      <body style={{ margin: 0 }} suppressHydrationWarning>
         <nav
           style={{
             display: "flex",
