@@ -7,6 +7,7 @@ import { DocumentIcons, DemographicsIcon } from "../repository/icons";
 type MatchedStudy = {
   id: string;
   title: string;
+  headline?: string;
   date: string;
   summary: string;
   tags: string[];
@@ -423,7 +424,12 @@ export default function Ask() {
                                 </div>
                                 <small style={{ color: "var(--color-text-muted)" }}>{s.date}</small>
                               </div>
-                              <h4 style={{ margin: "0.4rem 0 0.25rem" }}>{s.title}</h4>
+                              <h4 style={{ margin: "0.4rem 0 0.25rem" }}>{s.headline || s.title}</h4>
+                              {s.headline && (
+                                <p style={{ margin: "0 0 0.5rem", color: "var(--color-text-muted)", fontSize: "0.8rem", fontStyle: "italic" }}>
+                                  {s.title}
+                                </p>
+                              )}
                               <p style={{ margin: "0 0 0.5rem", color: "var(--color-text-muted)", fontSize: "0.9rem" }}>
                                 {s.summary}
                               </p>

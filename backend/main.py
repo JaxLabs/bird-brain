@@ -13,6 +13,13 @@ import json
 
 app = FastAPI()
 
+# Test Ollama connection on startup
+try:
+    test_response = ollama_client.generate(model="mistral", prompt="test", stream=False)
+    print(f"[OLLAMA] Successfully connected to mistral model")
+except Exception as e:
+    print(f"[OLLAMA WARNING] Cannot reach mistral model - headlines/findings will not be generated: {str(e)}")
+
 # AI Helper functions
 def generate_headline(title: str, summary: str) -> str:
     """Generate a compelling headline from the study title and summary using AI"""
@@ -29,9 +36,10 @@ Respond with ONLY the headline, nothing else."""
         headline = response['response'].strip()
         # Clean up any quotes or extra formatting
         headline = headline.strip('"\'').strip()
+        print(f"[HEADLINE] Generated for '{title[:30]}...': {headline}")
         return headline if len(headline) > 5 else title
     except Exception as e:
-        print(f"Error generating headline: {e}")
+        print(f"[HEADLINE ERROR] Failed to generate for '{title[:30]}...': {str(e)}")
         return title
 
 def extract_key_findings(summary: str) -> list:
@@ -48,12 +56,13 @@ Respond with a JSON array of strings, like ["Finding 1", "Finding 2"]. Nothing e
         response = ollama_client.generate(model="mistral", prompt=prompt)
         try:
             findings = json.loads(response['response'].strip())
+            print(f"[FINDINGS] Extracted {len(findings)} findings")
             return findings if isinstance(findings, list) else []
-        except:
-            # If JSON parsing fails, return empty list
+        except json.JSONDecodeError as e:
+            print(f"[FINDINGS ERROR] JSON parse failed: {response['response'][:100]}")
             return []
     except Exception as e:
-        print(f"Error extracting findings: {e}")
+        print(f"[FINDINGS ERROR] Failed to extract: {str(e)}")
         return []
 
 app.add_middleware(
@@ -124,9 +133,11 @@ def ask_question(payload: dict):
             except:
                 pass
 
+            headline = generate_headline(row["title"], row["summary"])
             matched_studies.append({
                 "id": row["id"],
                 "title": row["title"],
+                "headline": headline,
                 "date": row["date"],
                 "summary": row["summary"],
                 "tags": tags,
