@@ -508,7 +508,12 @@ export default function Repository() {
                   </div>
                 </div>
 
-                <h3 style={{ margin: "0.4rem 0 0.6rem 0", fontSize: "1.05rem", fontWeight: 600 }}>{study.title}</h3>
+                <h3 style={{ margin: "0.4rem 0 0.6rem 0", fontSize: "1.05rem", fontWeight: 600 }}>{study.headline || study.title}</h3>
+                {study.headline && (
+                  <p style={{ margin: "0 0 0.6rem 0", color: "var(--color-text-muted)", fontSize: "0.85rem", lineHeight: 1.3, fontStyle: "italic" }}>
+                    {study.title}
+                  </p>
+                )}
                 <p style={{ margin: "0", color: "var(--color-text-muted)", fontSize: "0.9rem", lineHeight: 1.4 }}>{study.summary}</p>
               </div>
             );
