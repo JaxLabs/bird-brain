@@ -9,6 +9,7 @@ import { FiUser } from "react-icons/fi";
 type Study = {
   id: string;
   title: string;
+  headline?: string;
   date: string;
   researchType: string;
   methodology: string;
@@ -172,8 +173,13 @@ export default function Repository() {
 
               {/* Title */}
               <h1 style={{ margin: "0 0 1rem 0", fontSize: "2.5rem", fontWeight: 700, lineHeight: 1.2 }}>
-                {selectedStudy.title}
+                {selectedStudy.headline || selectedStudy.title}
               </h1>
+              {selectedStudy.headline && (
+                <p style={{ margin: "0 0 1.5rem 0", fontSize: "1rem", color: "var(--color-text-muted)", fontStyle: "italic" }}>
+                  {selectedStudy.title}
+                </p>
+              )}
 
               {/* Metadata */}
               <div style={{ color: "var(--color-text-muted)", fontSize: "1rem", marginBottom: "2rem", paddingBottom: "2rem", borderBottom: "1px solid var(--color-border)" }}>
