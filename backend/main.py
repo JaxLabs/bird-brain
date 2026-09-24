@@ -13,6 +13,49 @@ import json
 
 app = FastAPI()
 
+# AI Helper functions
+def generate_headline(title: str, summary: str) -> str:
+    """Generate a compelling headline from the study title and summary using AI"""
+    try:
+        prompt = f"""Based on this research study, create a compelling headline that highlights the biggest takeaway or finding.
+The headline should be short (under 10 words), action-oriented, and capture the main insight.
+
+Study: {title}
+Summary: {summary}
+
+Respond with ONLY the headline, nothing else."""
+
+        response = ollama_client.generate(model="mistral", prompt=prompt)
+        headline = response['response'].strip()
+        # Clean up any quotes or extra formatting
+        headline = headline.strip('"\'').strip()
+        return headline if len(headline) > 5 else title
+    except Exception as e:
+        print(f"Error generating headline: {e}")
+        return title
+
+def extract_key_findings(summary: str) -> list:
+    """Extract 2-3 key findings/takeaways from the summary using AI"""
+    try:
+        prompt = f"""Extract 2-3 key findings or takeaways from this research summary.
+Format each as a concise statement (1 sentence max, under 15 words) that highlights a specific insight.
+These should be impactful statements that stand out as important findings.
+
+Summary: {summary}
+
+Respond with a JSON array of strings, like ["Finding 1", "Finding 2"]. Nothing else."""
+
+        response = ollama_client.generate(model="mistral", prompt=prompt)
+        try:
+            findings = json.loads(response['response'].strip())
+            return findings if isinstance(findings, list) else []
+        except:
+            # If JSON parsing fails, return empty list
+            return []
+    except Exception as e:
+        print(f"Error extracting findings: {e}")
+        return []
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -203,9 +246,11 @@ def list_studies(
         study_tags = [t["tag"] for t in conn.execute(
             "SELECT tag FROM study_tags WHERE study_id=?", (study_id,))]
 
+        headline = generate_headline(row["title"], row["summary"])
         results.append({
             "id": row["id"],
             "title": row["title"],
+            "headline": headline,
             "date": row["date"],
             "researchType": row["research_type"],
             "methodology": row["methodology"],
@@ -245,9 +290,13 @@ def get_study_detail(study_id: str):
 
     conn.close()
 
+    headline = generate_headline(row["title"], row["summary"])
+    key_findings = extract_key_findings(row["summary"])
+
     return {
         "id": row["id"],
         "title": row["title"],
+        "headline": headline,
         "date": row["date"],
         "researchType": row["research_type"],
         "methodology": row["methodology"],
@@ -261,6 +310,7 @@ def get_study_detail(study_id: str):
         "tags": tags,
         "demographics": demographics,
         "quotes": quotes,
+        "keyFindings": key_findings,
         "documents": documents,
         "startingQuestions": starting_questions,
     }

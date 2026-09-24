@@ -19,6 +19,7 @@ type Study = {
   summary: string;
   features: string[];
   tags: string[];
+  keyFindings?: string[];
 };
 
 type StudyDetail = Study & {
@@ -208,6 +209,31 @@ export default function Repository() {
                   {selectedStudy.summary}
                 </p>
               </div>
+
+              {/* Key Findings */}
+              {selectedStudy.keyFindings && selectedStudy.keyFindings.length > 0 && (
+                <div style={{ marginBottom: "3rem" }}>
+                  <h2 style={{ margin: "0 0 1.5rem 0", fontSize: "1.3rem", fontWeight: 600 }}>Key Findings</h2>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                    {selectedStudy.keyFindings.map((finding, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          padding: "1rem 1.25rem",
+                          backgroundColor: "#f0f7f0",
+                          borderRadius: "8px",
+                          borderLeft: "4px solid #2e7d32",
+                          fontSize: "1rem",
+                          lineHeight: 1.6,
+                          color: "var(--color-text)",
+                        }}
+                      >
+                        {finding}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Quotes */}
               {selectedStudy.quotes.length > 0 && (
