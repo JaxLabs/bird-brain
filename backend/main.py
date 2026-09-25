@@ -22,15 +22,16 @@ except Exception as e:
 
 # AI Helper functions
 def generate_headline(title: str, summary: str) -> str:
-    """Generate a compelling headline from the study title and summary using AI"""
+    """Generate a summary of the main takeaway from the study"""
     try:
-        prompt = f"""Based on this research study, create a compelling headline that highlights the biggest takeaway or finding.
-The headline should be short (under 10 words), action-oriented, and capture the main insight.
+        prompt = f"""Based on this research, what is the single most important finding or takeaway?
+Write it as a short, clear statement (under 15 words) that someone should know about this research.
+Be direct and factual - not marketing language.
 
 Study: {title}
 Summary: {summary}
 
-Respond with ONLY the headline, nothing else."""
+Respond with ONLY the takeaway statement, nothing else."""
 
         response = ollama_client.generate(model="mistral", prompt=prompt)
         headline = response['response'].strip()
@@ -43,11 +44,11 @@ Respond with ONLY the headline, nothing else."""
         return title
 
 def extract_key_findings(summary: str) -> list:
-    """Extract 2-3 key findings/takeaways from the summary using AI"""
+    """Extract 2-3 key findings from the research summary"""
     try:
-        prompt = f"""Extract 2-3 key findings or takeaways from this research summary.
-Format each as a concise statement (1 sentence max, under 15 words) that highlights a specific insight.
-These should be impactful statements that stand out as important findings.
+        prompt = f"""What are 2-3 of the most important findings or results from this research?
+List them as clear, factual statements (under 15 words each).
+Be specific about what was actually found in the research.
 
 Summary: {summary}
 
@@ -124,8 +125,9 @@ def ask_question(payload: dict):
                 continue
             quotes = [dict(q) for q in conn.execute(
                 "SELECT text, participant FROM quotes WHERE study_id=?", (study_id,))]
-            tags = [t["tag"] for t in conn.execute(
+            tags_raw = [t["tag"] for t in conn.execute(
                 "SELECT tag FROM study_tags WHERE study_id=?", (study_id,))]
+            tags = list(dict.fromkeys(tags_raw))
             # Parse artifacts/links
             artifacts = []
             try:
@@ -152,7 +154,9 @@ def ask_question(payload: dict):
             for s in matched_studies
         )
 
-        prompt = f"""You are a research assistant. Answer the question using ONLY the study summaries below. Keep the answer to 2-3 sentences. If the studies don't cover the question, say so.
+        prompt = f"""You are a research assistant. Synthesize insights from the studies below to answer the user's question.
+Provide a clear, concise answer (2-3 sentences) that draws from the research findings.
+If the studies don't adequately cover the question, say so.
 
 Studies:
 {context_text}
@@ -286,18 +290,51 @@ def get_study_detail(study_id: str):
     if not row:
         raise HTTPException(status_code=404, detail="Study not found")
 
-    features = [f["feature"] for f in conn.execute(
+    # Get features and deduplicate
+    raw_features = [f["feature"] for f in conn.execute(
         "SELECT feature FROM study_features WHERE study_id=?", (study_id,))]
-    tags = [t["tag"] for t in conn.execute(
+    features = list(dict.fromkeys(raw_features))
+
+    # Get tags and deduplicate
+    raw_tags = [t["tag"] for t in conn.execute(
         "SELECT tag FROM study_tags WHERE study_id=?", (study_id,))]
-    demographics = [dict(d) for d in conn.execute(
+    tags = list(dict.fromkeys(raw_tags))  # Preserve order while removing duplicates
+
+    # Get demographics and deduplicate
+    raw_demographics = [dict(d) for d in conn.execute(
         "SELECT role, age_range FROM demographics WHERE study_id=?", (study_id,))]
-    quotes = [dict(q) for q in conn.execute(
+    seen_demo = set()
+    demographics = []
+    for d in raw_demographics:
+        key = (d["role"], d["age_range"])
+        if key not in seen_demo:
+            seen_demo.add(key)
+            demographics.append(d)
+    # Get quotes and deduplicate by text content
+    raw_quotes = [dict(q) for q in conn.execute(
         "SELECT text, participant, timestamp FROM quotes WHERE study_id=?", (study_id,))]
-    documents = [dict(doc) for doc in conn.execute(
+    seen_quotes = set()
+    quotes = []
+    for q in raw_quotes:
+        key = q["text"]
+        if key not in seen_quotes:
+            seen_quotes.add(key)
+            quotes.append(q)
+    # Get documents and deduplicate by (doc_type, file_url) pair
+    raw_docs = [dict(doc) for doc in conn.execute(
         "SELECT doc_type, file_url FROM documents WHERE study_id=?", (study_id,))]
-    starting_questions = [q["question"] for q in conn.execute(
+    seen = set()
+    documents = []
+    for doc in raw_docs:
+        key = (doc["doc_type"], doc["file_url"])
+        if key not in seen:
+            seen.add(key)
+            documents.append(doc)
+
+    # Get starting questions and deduplicate
+    raw_sq = [q["question"] for q in conn.execute(
         "SELECT question FROM starting_questions WHERE study_id=?", (study_id,))]
+    starting_questions = list(dict.fromkeys(raw_sq))
 
     conn.close()
 
@@ -751,11 +788,15 @@ def get_filters():
     features = []
     
     conn.close()
-    
+
     return {
         "features": features,
         "tags": sorted(list(tags))
     }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 @app.get("/filters")
 def get_filters():

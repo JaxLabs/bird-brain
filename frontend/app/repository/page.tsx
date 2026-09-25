@@ -62,6 +62,7 @@ const BASELINE_FEATURES = [
 
 export default function Repository() {
   const [studies, setStudies] = useState<Study[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filterOptions, setFilterOptions] = useState<Filters>({ features: [], tags: [] });
   const [search, setSearch] = useState("");
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
@@ -87,6 +88,7 @@ export default function Repository() {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     const params = new URLSearchParams();
     if (selectedFeatures.length) params.set("features", selectedFeatures.join(","));
     if (selectedTags.length) params.set("tags", selectedTags.join(","));
@@ -94,8 +96,14 @@ export default function Repository() {
 
     fetch(`http://localhost:8000/studies?${params.toString()}`)
       .then((res) => res.json())
-      .then(setStudies)
-      .catch(() => setStudies([]));
+      .then((data) => {
+        setStudies(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setStudies([]);
+        setLoading(false);
+      });
   }, [selectedFeatures, selectedTags, search]);
 
   function toggle(list: string[], setList: (v: string[]) => void, value: string) {
@@ -155,9 +163,9 @@ export default function Repository() {
             <div style={{ maxWidth: "800px", margin: "0 auto" }}>
               {/* Tags */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "2rem" }}>
-                {selectedStudy.tags.map((tag) => (
+                {selectedStudy.tags.map((tag, i) => (
                   <span
-                    key={tag}
+                    key={`${tag}-${i}`}
                     style={{
                       fontSize: "0.8rem",
                       background: "#e0e0e0",
@@ -461,7 +469,36 @@ export default function Repository() {
             gap: view === "grid" ? "1rem" : 0,
           }}
         >
-          {filtered.map((study) => {
+          {loading ? (
+            <>
+              {[...Array(4)].map((_, i) => (
+                <div
+                  key={`skeleton-${i}`}
+                  style={{
+                    border: "1px solid #e0e0e0",
+                    borderRadius: view === "grid" ? "10px" : 0,
+                    padding: "1.25rem",
+                    animation: "pulse 1.5s ease-in-out infinite",
+                  }}
+                >
+                  <div style={{ display: "flex", gap: "0.4rem", marginBottom: "0.8rem" }}>
+                    <div style={{ width: "60px", height: "20px", background: "#e0e0e0", borderRadius: "4px" }} />
+                    <div style={{ width: "80px", height: "20px", background: "#e0e0e0", borderRadius: "4px" }} />
+                  </div>
+                  <div style={{ height: "20px", background: "#e0e0e0", borderRadius: "4px", marginBottom: "0.8rem" }} />
+                  <div style={{ height: "60px", background: "#e0e0e0", borderRadius: "4px", marginBottom: "0.8rem" }} />
+                  <div style={{ height: "16px", background: "#e0e0e0", borderRadius: "4px", width: "70%" }} />
+                </div>
+              ))}
+              <style>{`
+                @keyframes pulse {
+                  0%, 100% { opacity: 0.6; }
+                  50% { opacity: 1; }
+                }
+              `}</style>
+            </>
+          ) : (
+            filtered.map((study) => {
             const mColor = methodologyColor(study.methodology);
             const isSelected = selectedStudy?.id === study.id;
             return (
@@ -469,15 +506,18 @@ export default function Repository() {
                 key={study.id}
                 onClick={() => openStudy(study.id)}
                 style={{
-                  padding: view === "list" ? "1.25rem 0" : "1.25rem",
+                  paddingTop: view === "list" ? "1.25rem" : "1.25rem",
+                  paddingRight: view === "list" ? "1.25rem" : "1.25rem",
+                  paddingBottom: view === "list" ? "1.25rem" : "1.25rem",
+                  paddingLeft: view === "list" && isSelected ? "calc(1.25rem - 4px)" : view === "list" ? "1.25rem" : "1.25rem",
                   borderBottom: view === "list" ? "1px solid var(--color-border)" : "none",
-                  border: view === "grid" ? "1px solid var(--color-border)" : "none",
-                  borderRadius: view === "grid" ? "10px" : 0,
+                  border: view === "list" ? "1px solid var(--color-border)" : view === "grid" ? "1px solid var(--color-border)" : "none",
+                  borderRadius: view === "grid" ? "10px" : view === "list" ? "8px" : 0,
                   cursor: "pointer",
-                  backgroundColor: isSelected ? "#f0f7f0" : view === "grid" ? "#fafafa" : "transparent",
+                  backgroundColor: isSelected ? "#f0f7f0" : view === "grid" ? "#fafafa" : view === "list" ? "#fafafa" : "transparent",
                   borderLeft: view === "list" && isSelected ? "4px solid #2e7d32" : "none",
-                  paddingLeft: view === "list" && isSelected ? "calc(1.25rem - 4px)" : "1.25rem",
                   transition: "background-color 0.2s",
+                  marginBottom: view === "list" ? "0.5rem" : 0,
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.6rem" }}>
@@ -517,7 +557,8 @@ export default function Repository() {
                 <p style={{ margin: "0", color: "var(--color-text-muted)", fontSize: "0.9rem", lineHeight: 1.4 }}>{study.summary}</p>
               </div>
             );
-          })}
+            })
+          )}
         </div>
       </main>
         </>
