@@ -128,9 +128,9 @@ export default function Ask() {
             <div style={{ maxWidth: "800px", margin: "0 auto" }}>
               {/* Tags */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "2rem" }}>
-                {selectedStudy.tags.map((tag) => (
+                {selectedStudy.tags.map((tag, i) => (
                   <span
-                    key={tag}
+                    key={`${tag}-${i}`}
                     style={{
                       fontSize: "0.8rem",
                       background: "#e0e0e0",
@@ -390,7 +390,30 @@ export default function Ask() {
                           <BirdImage alt="Assistant" width={24} height={24} rounded={true} />
                         </div>
                         <div style={{ flex: 1 }}>
-                          <p style={{ margin: "0 0 0.75rem" }}>{m.text}</p>
+                          {/* AI Summary Box */}
+                          <div style={{
+                            background: "#f0f7f0",
+                            border: "1px solid #c8e6c9",
+                            borderRadius: "8px",
+                            padding: "1rem",
+                            marginBottom: "1rem"
+                          }}>
+                            <p style={{ margin: "0", fontSize: "0.95rem", lineHeight: 1.5, color: "var(--color-text)" }}>{m.text}</p>
+                          </div>
+
+                          {/* Sources Label */}
+                          {m.studies && m.studies.length > 0 && (
+                            <p style={{
+                              margin: "0.5rem 0 0.75rem 0",
+                              fontSize: "0.85rem",
+                              fontWeight: 600,
+                              color: "var(--color-text-muted)",
+                              textTransform: "uppercase",
+                              letterSpacing: "0.5px"
+                            }}>📚 Sources</p>
+                          )}
+
+                          {/* Study Cards */}
                           {m.studies?.map((s) => (
                             <div
                               key={s.id}
@@ -406,9 +429,9 @@ export default function Ask() {
                             >
                               <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <div>
-                                  {s.tags.map((tag) => (
+                                  {s.tags.map((tag, i) => (
                                     <span
-                                      key={tag}
+                                      key={`${s.id}-${tag}-${i}`}
                                       style={{
                                         fontSize: "0.7rem",
                                         background: "var(--color-tag-bg)",
@@ -449,7 +472,55 @@ export default function Ask() {
                   )}
                 </div>
               ))}
-              {loading && <p style={{ color: "var(--color-text-muted)" }}>Thinking...</p>}
+              {loading && (
+                <div style={{ marginTop: "2rem" }}>
+                  <div style={{ display: "flex", gap: "0.5rem", marginBottom: "2px" }}>
+                    <div style={{ flexShrink: 0 }}>
+                      <BirdImage alt="Assistant" width={24} height={24} rounded={true} />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{
+                        background: "#f0f7f0",
+                        border: "1px solid #c8e6c9",
+                        borderRadius: "8px",
+                        padding: "1rem",
+                        marginBottom: "1rem"
+                      }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                          <div style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            backgroundColor: "#2e7d32",
+                            animation: "pulse 1.5s ease-in-out infinite"
+                          }} />
+                          <p style={{ margin: "0", fontSize: "0.95rem", lineHeight: 1.5, color: "var(--color-text)" }}>
+                            Searching research and generating insights...
+                          </p>
+                        </div>
+                      </div>
+                      <div style={{
+                        border: "1px solid var(--color-border)",
+                        borderRadius: "8px",
+                        padding: "1rem",
+                        marginBottom: "0.75rem",
+                        background: "var(--color-bg)",
+                        animation: "pulse 1.5s ease-in-out infinite"
+                      }}>
+                        <div style={{ height: "12px", background: "#e0e0e0", borderRadius: "4px", marginBottom: "0.5rem" }} />
+                        <div style={{ height: "12px", background: "#e0e0e0", borderRadius: "4px", marginBottom: "0.5rem", width: "90%" }} />
+                        <div style={{ height: "12px", background: "#e0e0e0", borderRadius: "4px", width: "70%" }} />
+                      </div>
+                    </div>
+                  </div>
+                  <style>{`
+                    @keyframes pulse {
+                      0%, 100% { opacity: 0.6; }
+                      50% { opacity: 1; }
+                    }
+                  `}</style>
+                </div>
+              )}
             </div>
           )}
         </div>
