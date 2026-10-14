@@ -25,6 +25,7 @@ type Study = {
 type StudyDetail = Study & {
   interaction: string;
   transcriptLink: string | null;
+  findingsSummary?: string;
   demographics: { role: string; age_range: string | null }[];
   quotes: { text: string; participant: string | null; timestamp: string | null }[];
   documents: { doc_type: string; file_url: string }[];
@@ -217,6 +218,27 @@ export default function Repository() {
                   {selectedStudy.summary}
                 </p>
               </div>
+
+              {/* Findings Summary */}
+              {selectedStudy.findingsSummary && (
+                <div style={{ marginBottom: "3rem" }}>
+                  <h2 style={{ margin: "0 0 1.5rem 0", fontSize: "1.5rem", fontWeight: 600 }}>Research Findings</h2>
+                  <div
+                    style={{
+                      padding: "2rem",
+                      backgroundColor: "#f8fdf7",
+                      borderRadius: "8px",
+                      borderLeft: "6px solid #2e7d32",
+                      fontSize: "1.1rem",
+                      lineHeight: 2,
+                      color: "var(--color-text)",
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {selectedStudy.findingsSummary}
+                  </div>
+                </div>
+              )}
 
               {/* Key Findings */}
               {selectedStudy.keyFindings && selectedStudy.keyFindings.length > 0 && (
@@ -510,12 +532,13 @@ export default function Repository() {
                   paddingRight: view === "list" ? "1.25rem" : "1.25rem",
                   paddingBottom: view === "list" ? "1.25rem" : "1.25rem",
                   paddingLeft: view === "list" && isSelected ? "calc(1.25rem - 4px)" : view === "list" ? "1.25rem" : "1.25rem",
-                  borderBottom: view === "list" ? "1px solid var(--color-border)" : "none",
-                  border: view === "list" ? "1px solid var(--color-border)" : view === "grid" ? "1px solid var(--color-border)" : "none",
+                  borderTop: view === "grid" ? "1px solid var(--color-border)" : "none",
+                  borderRight: view === "grid" ? "1px solid var(--color-border)" : "none",
+                  borderBottom: view === "grid" ? "1px solid var(--color-border)" : "none",
+                  borderLeft: view === "list" && isSelected ? "4px solid #2e7d32" : view === "grid" ? "1px solid var(--color-border)" : "none",
                   borderRadius: view === "grid" ? "10px" : view === "list" ? "8px" : 0,
                   cursor: "pointer",
                   backgroundColor: isSelected ? "#f0f7f0" : view === "grid" ? "#fafafa" : view === "list" ? "#fafafa" : "transparent",
-                  borderLeft: view === "list" && isSelected ? "4px solid #2e7d32" : "none",
                   transition: "background-color 0.2s",
                   marginBottom: view === "list" ? "0.5rem" : 0,
                 }}

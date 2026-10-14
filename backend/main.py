@@ -66,6 +66,31 @@ Respond with a JSON array of strings, like ["Finding 1", "Finding 2"]. Nothing e
         print(f"[FINDINGS ERROR] Failed to extract: {str(e)}")
         return []
 
+def generate_findings_summary(title: str, summary: str, methodology: str) -> str:
+    """Generate a comprehensive findings summary that synthesizes the research"""
+    try:
+        prompt = f"""Write a comprehensive summary of the key findings and implications from this research study.
+Focus on:
+1. What was discovered (2-3 main findings)
+2. Why it matters (implications for the field)
+3. What comes next (recommendations or applications)
+
+Keep it 3-4 paragraphs, clear and accessible, suitable for a researcher who wants to quickly understand what this study found.
+
+Study: {title}
+Methodology: {methodology}
+Summary: {summary}
+
+Write ONLY the findings summary, no preamble."""
+
+        response = ollama_client.generate(model="mistral", prompt=prompt)
+        summary_text = response['response'].strip()
+        print(f"[SUMMARY] Generated comprehensive findings for '{title[:30]}...'")
+        return summary_text
+    except Exception as e:
+        print(f"[SUMMARY ERROR] Failed to generate: {str(e)}")
+        return ""
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -340,6 +365,7 @@ def get_study_detail(study_id: str):
 
     headline = generate_headline(row["title"], row["summary"])
     key_findings = extract_key_findings(row["summary"])
+    findings_summary = generate_findings_summary(row["title"], row["summary"], row["methodology"])
 
     return {
         "id": row["id"],
@@ -353,6 +379,7 @@ def get_study_detail(study_id: str):
         "participants": row["participants"],
         "researcher": row["researcher"],
         "summary": row["summary"],
+        "findingsSummary": findings_summary,
         "transcriptLink": row["transcript_link"],
         "features": features,
         "tags": tags,
