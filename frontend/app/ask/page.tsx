@@ -22,6 +22,7 @@ type StudyDetail = {
   participants: number;
   researcher: string;
   summary: string;
+  findingsSummary?: string;
   tags: string[];
   quotes: { text: string; participant: string | null; timestamp: string | null }[];
   keyFindings?: string[];
@@ -58,6 +59,7 @@ export default function Ask() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState<StudyDetail | null>(null);
+  const [studyDetailLoading, setStudyDetailLoading] = useState(false);
   const [docsOpen, setDocsOpen] = useState(true);
   const [demographicsOpen, setDemographicsOpen] = useState(true);
 
@@ -107,9 +109,17 @@ export default function Ask() {
   }
 
   function openStudy(id: string) {
+    setStudyDetailLoading(true);
     fetch(`http://localhost:8000/studies/${id}`)
       .then((res) => res.json())
-      .then(setSelectedStudy);
+      .then((data) => {
+        setSelectedStudy(data);
+        setStudyDetailLoading(false);
+      })
+      .catch(() => {
+        console.error("Failed to load study");
+        setStudyDetailLoading(false);
+      });
   }
 
   return (
@@ -132,7 +142,9 @@ export default function Ask() {
             >
               ←
             </button>
-            <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 600, flex: 1 }}>Research Details</h1>
+            <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 600, flex: 1 }}>
+              Research Details {studyDetailLoading && <span style={{ fontSize: "1rem", marginLeft: "1rem", animation: "pulse 1s infinite" }}>●</span>}
+            </h1>
           </div>
 
           {/* Article content */}
@@ -192,6 +204,16 @@ export default function Ask() {
                   {selectedStudy.summary}
                 </p>
               </div>
+
+              {/* AI Findings Summary */}
+              {selectedStudy.findingsSummary && (
+                <div style={{ marginBottom: "3rem", padding: "1.5rem", backgroundColor: "#f0f7f0", borderRadius: "8px", borderLeft: "4px solid #2e7d32" }}>
+                  <h2 style={{ margin: "0 0 1rem 0", fontSize: "1.3rem", fontWeight: 600 }}>Research Findings</h2>
+                  <p style={{ lineHeight: 1.8, fontSize: "1rem", color: "var(--color-text)", margin: 0, whiteSpace: "pre-wrap" }}>
+                    {selectedStudy.findingsSummary}
+                  </p>
+                </div>
+              )}
 
               {/* Key Findings */}
               {selectedStudy.keyFindings && selectedStudy.keyFindings.length > 0 && (
@@ -585,6 +607,13 @@ export default function Ask() {
             </div>
           )}
         </div>
+
+        <style>{`
+          @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+          }
+        `}</style>
 
         {/* Input bar - always visible */}
         <div style={{ borderTop: "1px solid var(--color-border)", padding: "1rem 2rem 4rem 2rem", margin: "0 auto", maxWidth: "900px", width: "100%" }}>
