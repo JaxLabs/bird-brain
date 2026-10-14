@@ -71,6 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               transition: "all 0.2s ease",
               fontWeight: 600,
               cursor: "pointer",
+              lineHeight: "1",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";

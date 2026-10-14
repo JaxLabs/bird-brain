@@ -145,7 +145,45 @@ export default function Repository() {
   });
 
   return (
-    <div style={{ display: "flex" }}>
+    <>
+      <style>{`
+        @keyframes flyBird {
+          0% { transform: translateY(0) scaleX(1); }
+          50% { transform: translateY(-15px) scaleX(1); }
+          100% { transform: translateY(0) scaleX(1); }
+        }
+      `}</style>
+      {/* Loading modal overlay */}
+      {studyDetailLoading && !selectedStudy && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999,
+        }}>
+          <div style={{
+            backgroundColor: "white",
+            borderRadius: "12px",
+            padding: "3rem 2rem",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.15)",
+            textAlign: "center",
+          }}>
+            <div style={{ marginBottom: "1.5rem", height: "60px", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
+              <span style={{ fontSize: "2.5rem", animation: "flyBird 1.5s infinite", animationDelay: "0s" }}>🐦</span>
+              <span style={{ fontSize: "2.5rem", animation: "flyBird 1.5s infinite", animationDelay: "0.3s" }}>🐦</span>
+              <span style={{ fontSize: "2.5rem", animation: "flyBird 1.5s infinite", animationDelay: "0.6s" }}>🐦</span>
+            </div>
+            <p style={{ margin: 0, color: "var(--color-text-muted)", fontSize: "0.9rem", fontWeight: 500 }}>Fetching research...</p>
+          </div>
+        </div>
+      )}
+      <div style={{ display: "flex" }}>
       {/* Full page research view */}
       {selectedStudy && (
         <div style={{ flex: 1, display: "flex", flexDirection: "column", width: "100%", backgroundColor: "white" }}>
@@ -603,6 +641,7 @@ export default function Repository() {
       </main>
         </>
       )}
-    </div>
+      </div>
+    </>
   );
 }

@@ -123,7 +123,49 @@ export default function Ask() {
   }
 
   return (
-    <div style={{ display: "flex", height: "calc(100vh - 57px)", fontFamily: "sans-serif" }}>
+    <>
+      <style>{`
+        @keyframes flyBird {
+          0% { transform: translateY(0) scaleX(1); }
+          50% { transform: translateY(-15px) scaleX(1); }
+          100% { transform: translateY(0) scaleX(1); }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+      `}</style>
+      <div style={{ display: "flex", height: "calc(100vh - 57px)", fontFamily: "sans-serif" }}>
+      {/* Loading modal overlay */}
+      {studyDetailLoading && !selectedStudy && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999,
+        }}>
+          <div style={{
+            backgroundColor: "white",
+            borderRadius: "12px",
+            padding: "3rem 2rem",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.15)",
+            textAlign: "center",
+          }}>
+            <div style={{ marginBottom: "1.5rem", height: "60px", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
+              <span style={{ fontSize: "2.5rem", animation: "flyBird 1.5s infinite", animationDelay: "0s" }}>🐦</span>
+              <span style={{ fontSize: "2.5rem", animation: "flyBird 1.5s infinite", animationDelay: "0.3s" }}>🐦</span>
+              <span style={{ fontSize: "2.5rem", animation: "flyBird 1.5s infinite", animationDelay: "0.6s" }}>🐦</span>
+            </div>
+            <p style={{ margin: 0, color: "var(--color-text-muted)", fontSize: "0.9rem", fontWeight: 500 }}>Fetching research...</p>
+          </div>
+        </div>
+      )}
       {/* Full page research view */}
       {selectedStudy && (
         <div style={{ flex: 1, display: "flex", flexDirection: "column", width: "100%", backgroundColor: "white" }}>
@@ -148,7 +190,12 @@ export default function Ask() {
           </div>
 
           {/* Article content */}
-          <div style={{ flex: 1, overflowY: "auto", padding: "3rem" }}>
+          <div style={{ flex: 1, overflowY: "auto", padding: "3rem", opacity: studyDetailLoading ? 0.5 : 1, transition: "opacity 0.2s ease", position: "relative" }}>
+            {studyDetailLoading && (
+              <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 10 }}>
+                <div style={{ fontSize: "2rem", animation: "pulse 1.5s infinite" }}>●</div>
+              </div>
+            )}
             <div style={{ maxWidth: "800px", margin: "0 auto" }}>
               {/* Tags */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "2rem" }}>
@@ -625,7 +672,7 @@ export default function Ask() {
         {/* Input bar - always visible */}
         <div style={{ borderTop: "1px solid var(--color-border)", padding: "1rem 2rem 4rem 2rem", margin: "0 auto", maxWidth: "900px", width: "100%" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            <div style={{ display: "flex", gap: "1rem" }}>
+            <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <input
                 type="text"
                 value={question}
@@ -644,12 +691,19 @@ export default function Ask() {
                 onClick={() => askQuestion(question)}
                 disabled={loading}
                 style={{
-                  padding: "0.6rem 1rem",
+                  width: "44px",
+                  height: "44px",
+                  padding: 0,
                   background: "var(--color-accent)",
                   color: "white",
                   border: "none",
                   borderRadius: "8px",
                   cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "1.2rem",
+                  flexShrink: 0,
                 }}
               >
                 ➤
@@ -664,5 +718,6 @@ export default function Ask() {
         )
       }
     </div>
+    </>
   );
 }
