@@ -64,6 +64,7 @@ const BASELINE_FEATURES = [
 export default function Repository() {
   const [studies, setStudies] = useState<Study[]>([]);
   const [loading, setLoading] = useState(true);
+  const [studyDetailLoading, setStudyDetailLoading] = useState(false);
   const [filterOptions, setFilterOptions] = useState<Filters>({ features: [], tags: [] });
   const [search, setSearch] = useState("");
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
@@ -112,10 +113,17 @@ export default function Repository() {
   }
 
   function openStudy(id: string) {
+    setStudyDetailLoading(true);
     fetch(`http://localhost:8000/studies/${id}`)
       .then((res) => res.json())
-      .then(setSelectedStudy)
-      .catch(() => console.error("Failed to load study"));
+      .then((data) => {
+        setSelectedStudy(data);
+        setStudyDetailLoading(false);
+      })
+      .catch(() => {
+        console.error("Failed to load study");
+        setStudyDetailLoading(false);
+      });
   }
 
   const filtered = studies.filter(
@@ -156,7 +164,13 @@ export default function Repository() {
             >
               ←
             </button>
-            <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 600, flex: 1 }}>Research Details</h1>
+            <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 600, flex: 1 }}>Research Details {studyDetailLoading && <span style={{ fontSize: "1rem", marginLeft: "1rem", animation: "pulse 1s infinite" }}>●</span>}</h1>
+            <style>{`
+              @keyframes pulse {
+                0%, 100% { opacity: 0.4; }
+                50% { opacity: 1; }
+              }
+            `}</style>
           </div>
 
           {/* Article content */}

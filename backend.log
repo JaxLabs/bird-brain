@@ -1,0 +1,321 @@
+INFO:     Started server process [97258]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+[OLLAMA] Successfully connected to mistral model
+[HEADLINE] Generated for 'Post birding experience formal...': The post-birding experience prototype was found to be effective for logging outings, searching by date, species, and location, with a success rate of 76% to 100% among both sighted novices and blind/low-vision participants.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues, need for better tutorials, and conflicting user preferences for social media features were key findings in this study.
+[HEADLINE] Generated for 'App Review Analysis...': User sentiment and feature requests indicate a need for improved accessibility and community engagement within the analyzed apps.
+INFO:     127.0.0.1:54230 - "POST /ask HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Post birding experience formal...': The core functionality of the post birding app (logging outings by date, species, and location) is usable for both sighted novice field participants and remote blind/low-vision users.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and date when resurfacing past outings.
+[HEADLINE] Generated for 'App Review Analysis...': User sentiment reveals key focus areas for app improvement: accessibility, features, and community engagement.
+INFO:     127.0.0.1:54293 - "POST /ask HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Post birding experience formal...': The birding app's core features for logging, finding, and filtering outings were validated across both blind/low-vision and sighted novice participants.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location as the most important factor when resurfacing past outings, followed by bird types and then date.
+[HEADLINE] Generated for 'App Review Analysis...': Users value improved accessibility, new features, and enhanced community engagement in apps.
+INFO:     127.0.0.1:54360 - "POST /ask HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding is fundamentally about listening and mindfulness, as demonstrated by both novice and blind birders.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birders.
+[HEADLINE] Generated for 'Post birding experience formal...': Core functionality of the post birding app is validated for both blind/low-vision and sighted novice users.
+INFO:     127.0.0.1:54427 - "POST /ask HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can engage in birding through listening and mindfulness.
+[FINDINGS ERROR] JSON parse failed:  ["Finding 1": "Birding is fundamentally about listening and mindfulness.",
+"Finding 2": "Blind bird
+INFO:     127.0.0.1:54427 - "GET /studies/study-002 HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding is fundamentally about listening and mindfulness, even for blind participants.
+[FINDINGS] Extracted 3 findings
+INFO:     127.0.0.1:54427 - "GET /studies/study-002 HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders significantly contribute to the practice of birding by focusing on listening skills.
+[FINDINGS] Extracted 2 findings
+INFO:     127.0.0.1:54508 - "GET /studies/study-002 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54508 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54531 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues and a need for better tutorials are common on social media platforms, while feature requests indicate competing user preferences for mutual friending vs. asymmetric following models.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and dates when recalling past outings.
+INFO:     127.0.0.1:54531 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54508 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Post birding experience formal...': The core functionality of the post-birding experience prototype, including logging outings and searching by date, species, and location, is effective for both sighted novices and blind/low-vision participants.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first birding experiences are most accessible.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can effectively participate in bird watching, redefining the activity beyond visual perception.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design workshops can yield accessible birding solutions, incorporating audio documentation, sharing mechanisms, and community features for mixed visual abilities.
+[HEADLINE] Generated for 'App Review Analysis...': Users value improved app accessibility, more functional features, and enhanced community engagement.
+INFO:     127.0.0.1:54427 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Social media users encounter frequent accessibility issues and require better tutorials, with feature requests focusing on improved documentation and sharing capabilities, as well as two contrasting social models: mutual friending vs asymmetric following.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and date in recalling past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The post-birding experience prototype tested was found to have a high level of usability (76-100%) for both blind/low-vision and sighted novice participants, particularly in logging outings by date, species, and location.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birding.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding can be experienced by everyone, including the visually impaired, as it's fundamentally about listening and mindfulness.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design workshops with mixed visual abilities can generate innovative solutions for accessible birdwatching through audio documentation, sharing mechanisms, and community features.
+[HEADLINE] Generated for 'App Review Analysis...': Users' sentiments and requested features, particularly those related to accessibility and community engagement, are essential for app improvement.
+INFO:     127.0.0.1:54508 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues and user confusion are common on social media platforms, necessitating improvements in tutorials, documentation, and sharing features. Competing social models for mutual friending and asymmetric following suggest revisions may be needed to better meet user preferences regarding privacy implications.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location as the most important factor when resurfacing past outings, followed by bird types and then dates.
+[HEADLINE] Generated for 'Post birding experience formal...': The Post birding experience prototype testing confirmed core functionalities like logging outings, finding by date, species, and location were usable for both blind/low-vision and sighted novice participants.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible in birding.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding is fundamentally about listening and mindfulness, as demonstrated by both novice and blind birders.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions involving participants with mixed visual abilities can lead to innovative designs for accessible birdwatching, focusing on audio documentation, sharing mechanisms, and community reminiscence features.
+[HEADLINE] Generated for 'App Review Analysis...': User sentiment and feature requests show trends in accessibility, features, and community engagement in the analyzed apps.
+INFO:     127.0.0.1:54427 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Users experience frequent accessibility issues on social media platforms and desire better tutorials, clearer documentation, and a feature for mutual friending.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and dates when resurfacing past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The post birding experience prototype testing confirmed that core functionalities like logging outings by date, species, and location are usable for both sighted novices and blind/low-vision participants.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences in birding are most accessible.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can contribute significantly to the practice of birdwatching by focusing on listening skills rather than sight.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions with participants of mixed visual abilities can develop innovative audio-based solutions for accessible birding experiences.
+[HEADLINE] Generated for 'App Review Analysis...': The study found trends in user feedback indicating importance of accessibility, features, and community engagement in apps.
+INFO:     127.0.0.1:54427 - "GET /studies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54712 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54717 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Users have frequent accessibility issues, need better tutorials, and request features for improved documentation and sharing on social media platforms, with a notable division between preferences for mutual friending and asymmetric following models.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and dates when recalling past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The Post birding experience prototype was found to be effective for both sighted novice birders and blind/low-vision participants in logging outings by date, species, and location, with a high completion rate.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birding.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders redefine birding as a sensory experience beyond sight.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions with participants of mixed visual abilities reveal a preference for audio documentation, shared mechanisms, and community features in accessible birding design solutions.
+[HEADLINE] Generated for 'App Review Analysis...': User sentiment significantly influences app development, highlighting the importance of addressing accessibility, improving features, and fostering community engagement.
+INFO:     127.0.0.1:54714 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content on Merlin's Instagram drives the highest engagement.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues, need for better tutorials, and conflicting user preferences on social media follow/friend models are recurring concerns identified in support tickets.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location as the most important factor when resurfacing past outings, followed by bird types and then date.
+[HEADLINE] Generated for 'Post birding experience formal...': The birding app's core functions for logging, searching by date, species, and location are effective for both sighted novices and blind/low-vision users.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences in birding are most accessible.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding can be enjoyed by people of all abilities, as demonstrated by the success of blind birders.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions with participants of mixed visual abilities can develop effective audio documentation, sharing mechanisms, and community features for accessible birding experiences.
+[HEADLINE] Generated for 'App Review Analysis...': User sentiment shows significant emphasis on improving accessibility and adding requested features within apps.
+INFO:     127.0.0.1:54717 - "GET /studies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54806 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54811 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content on Merlin's Instagram yields the highest engagement.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Users encounter frequent accessibility issues on social media platforms and desire better tutorials and improvements in documentation and sharing features.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and dates when recalling past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The post birding experience prototype is effective for both blind/low-vision and sighted novice users in tasks related to logging outings, finding by date, species, and location.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birding.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding is fundamentally about listening and mindfulness, even for blind birders who redefine the activity.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions are beneficial for creating accessible birding designs when involving participants with mixed visual abilities.
+[HEADLINE] Generated for 'App Review Analysis...': The analysis reveals trends in user sentiment and feature requests related to accessibility, features, and community engagement within apps.
+INFO:     127.0.0.1:54808 - "GET /studies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54808 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54864 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues and user education needs are common on social media platforms, with a divide between users favoring mutual friending versus asymmetric following of influencers.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues, need for better tutorials, and a divide in preferred social media user models (mutual friending vs. asymmetric following) are common findings from the analyzed support tickets.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location as the most important factor when resurfacing past outings, followed by bird types and then dates.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and dates when resurfacing past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The usability testing of the birding app prototype showed that core functions such as logging outings, finding by date, species, and location have high success rates (76-100%) among both sighted novice and blind/low-vision users.
+[HEADLINE] Generated for 'Post birding experience formal...': The post birding experience prototype is found to be effective in logging outings, finding data by date, species, and location, with a success rate of 76%-100%.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birders.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first birding experiences are most accessible for both sighted and low-vision/blind individuals.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can significantly contribute to the experience of birdwatching.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding is fundamentally about listening and mindfulness, demonstrated by both novice and blind birders.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions can yield accessible birding solutions for participants with diverse visual abilities, focusing on audio documentation, sharing mechanisms, and community features.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions with participants of mixed visual abilities can produce innovative solutions for accessible birding experiences, including audio documentation, sharing mechanisms, and community features.
+[HEADLINE] Generated for 'App Review Analysis...': Users' sentiments and feature request trends were identified regarding accessibility, features, and community engagement in the analyzed apps.
+[HEADLINE] Generated for 'App Review Analysis...': User sentiment towards accessibility and community engagement needs improvement in the analyzed apps.
+INFO:     127.0.0.1:54806 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Social media users frequently encounter accessibility issues and require improved tutorials, while feature requests emphasize documentation and sharing features, with competing social models emerging for mutual friending versus asymmetric following.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location as the most important factor when recalling past outings, followed by bird types and then dates.
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content on Merlin's Instagram yields the highest engagement.
+[HEADLINE] Generated for 'Post birding experience formal...': The post birding experience is usable for both blind/low-vision and sighted novice users, with high success in logging outings by date, species, and location.
+[FINDINGS] Extracted 2 findings
+INFO:     127.0.0.1:54806 - "GET /studies/study-005 HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for bird watching.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding can be engaging for individuals of all abilities, with listening and mindfulness key, and technology and community play important roles in learning and connection.
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding can be experienced by everyone, including those who are blind, as it's fundamentally about listening and mindfulness.
+[FINDINGS] Extracted 2 findings
+INFO:     127.0.0.1:54977 - "GET /studies/study-002 HTTP/1.1" 200 OK
+[FINDINGS] Extracted 2 findings
+INFO:     127.0.0.1:54806 - "GET /studies/study-005 HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions can effectively generate accessible birding solutions across different visual abilities, incorporating audio documentation, sharing mechanisms, and community features.
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'App Review Analysis...': Users value improved accessibility, additional features, and stronger community engagement in apps.
+INFO:     127.0.0.1:54944 - "GET /studies HTTP/1.1" 200 OK
+[FINDINGS ERROR] JSON parse failed:  ["Finding 1": "User-generated content drives the highest community engagement on Merlin's Instagram
+INFO:     127.0.0.1:54977 - "GET /studies/study-005 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54985 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55041 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Users encounter frequent accessibility issues on social media platforms and require better tutorials, while feature requests focus on improved documentation and sharing features, with a divide between mutual friending and asymmetric following preferences for different user groups.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and dates when resurfacing past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The usability testing of the birding app's prototype confirmed that key features like logging outings, searching by date, species, and location function well for both sighted novices and remote low-vision users.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birders.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding is fundamentally about listening and mindfulness, as demonstrated by both novice and blind birders.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions are valuable for creating accessible birding tools, focusing on audio documentation, sharing mechanisms, and community reminiscing features for mixed visual abilities.
+[HEADLINE] Generated for 'App Review Analysis...': User sentiment and trending feature requests for apps revolve around accessibility, features, and community engagement.
+INFO:     127.0.0.1:55038 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues and need for better tutorials, along with conflicting preferences for social media connection architecture (mutual vs. asymmetrical following).
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and dates when resurfacing past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The usability testing confirmed that the core functions of the birding app (logging outings, searching by date, species, and location) are effective for both sighted novices and blind/low-vision users.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first birding experiences are most accessible for a wide range of participants.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can redefine birding as a sensory experience beyond sight.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Mixed visual ability co-design sessions can generate innovative ideas for accessible birding design solutions, including audio documentation, sharing mechanisms, and community features.
+[HEADLINE] Generated for 'App Review Analysis...': User sentiment about apps shows a strong emphasis on improved accessibility, desired new features, and increased community engagement.
+INFO:     127.0.0.1:55041 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[FINDINGS ERROR] JSON parse failed:  ["Finding 1": "User-generated content drives the highest level of engagement.",
+ "Finding 2": "Both
+INFO:     127.0.0.1:55041 - "GET /studies/study-005 HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[FINDINGS ERROR] JSON parse failed:  ["Finding 1": "User-generated content drives the highest engagement on Merlin Instagram.",
+"Finding
+INFO:     127.0.0.1:55041 - "GET /studies/study-005 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55152 - "OPTIONS /ask HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can engage effectively in birdwatching by focusing on listening skills.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are the most accessible for birders.
+[HEADLINE] Generated for 'Post birding experience formal...': The usability testing of the birding experience prototype showed that core functions like logging outings and searching by date, species, and location are effective for both blind/low-vision and sighted novice users.
+INFO:     127.0.0.1:55152 - "POST /ask HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55152 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55199 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Users encounter accessibility issues frequently on social media platforms, and there is a need for improved tutorials and more user-friendly feature designs.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location as the most important factor when resurfacing past outings, followed by bird types and then dates.
+[HEADLINE] Generated for 'Post birding experience formal...': The post birding experience prototype was found to be effective for both blind/low-vision and sighted novice users in logging outings and finding them by date, species, and location.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first birding experiences are most accessible for all birders.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can contribute significantly to birding through heightened auditory skills.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions are beneficial for creating accessible birding solutions that cater to various visual abilities, focusing on audio documentation, sharing mechanisms, and community features.
+[HEADLINE] Generated for 'App Review Analysis...': Users express a high demand for improved accessibility and additional features in apps, with strong emphasis on community engagement.
+INFO:     127.0.0.1:55197 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Users encounter frequent accessibility issues on social media platforms and request better tutorials, improved documentation, and a feature for mutual friending or asymmetric following, depending on the social model preferred.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location as the most important factor when resurfacing past outings, followed by bird types and then date.
+[HEADLINE] Generated for 'Post birding experience formal...': The core functionalities of the birding app - logging outings, finding by date, species, and location - were validated for both sighted novices and blind/low-vision users during usability testing.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible in birding for a wide range of participants.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can contribute significantly to the practice of birdwatching by focusing on listening skills rather than sight.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions involving participants with different visual abilities highlight the importance of audio documentation, sharing mechanisms, and community features in accessible birding design solutions.
+[HEADLINE] Generated for 'App Review Analysis...': Users' sentiments and feature requests are key indicators for improving accessibility, features, and community engagement in apps.
+INFO:     127.0.0.1:56332 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56337 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues are common on social media platforms, and users need better tutorials and more options for documentation and sharing.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and date when recalling past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The Post birding experience was found to be usable for both blind/low-vision participants using screen readers and sighted novices, with a high success rate in logging outings by date, species, and location.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first birding experiences are most accessible for both blind/low-vision and sighted individuals.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders significantly contribute to redefining birding as a sensory experience beyond sight.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design workshops can yield solutions that improve accessibility in birding for individuals with varying visual abilities.
+[HEADLINE] Generated for 'App Review Analysis...': Users expressed a strong need for improved accessibility features and more community engagement within the app.
+INFO:     127.0.0.1:56334 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues and need for better tutorials are common on social media platforms, while feature requests indicate a divide in preferred user models (mutual friending vs. asymmetric following).
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and date when recalling past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The post birding experience prototype was validated for key functions like logging outings, searching by date, species, and location, with a successful task completion rate of 76% to 100%.
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birders.
+[FINDINGS ERROR] JSON parse failed:  ["Finding 1": "User-generated content drives the highest level of community engagement.",
+"Finding 
+INFO:     127.0.0.1:56409 - "GET /studies/study-005 HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders significantly contribute to redefining birding through their exceptional use of auditory skills.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design workshops with participants of mixed visual abilities found value in integrating audio documentation and sharing mechanisms for accessible birding design solutions.
+[HEADLINE] Generated for 'App Review Analysis...': Users' sentiment and feature request priorities in apps are primarily focused on accessibility, features, and community engagement.
+INFO:     127.0.0.1:56334 - "GET /studies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57283 - "OPTIONS /ask HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding is fundamentally about listening and mindfulness, even for blind birders who rely on other senses to connect with birds.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible in birding for both sighted and blind/low-vision individuals.
+[HEADLINE] Generated for 'Post birding experience formal...': The core functionality of the post birding app, including logging outings, finding by date, species, and location, is usable for both blind/low-vision and sighted novice participants.
+INFO:     127.0.0.1:57283 - "POST /ask HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can redefine birding through enhanced listening skills.
+[FINDINGS] Extracted 2 findings
+INFO:     127.0.0.1:57347 - "GET /studies/study-002 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57347 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57379 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Social media users encounter frequent accessibility issues and need better tutorials, with contrasting preferences for mutual friending versus asymmetrical following of influencers.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird type and date when recalling past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The usability testing of the post birding experience prototype showed a high success rate (76-100%) in logging outings based on date, species, and location for both blind/low-vision and sighted novice participants.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible in birding for all participants.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders redefine birding as a sensory experience beyond sight.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Mixed visual ability groups can collaborate effectively to develop accessible birding designs, focusing on audio documentation, shared mechanisms, and communal memory features.
+[HEADLINE] Generated for 'App Review Analysis...': User sentiment and feature requests reveal key trends in accessibility, features, and community engagement among app users.
+INFO:     127.0.0.1:57377 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Social media users frequently encounter accessibility issues and require better tutorials, with conflicting preferences for mutual friending versus asymmetrical following models.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and date when resurfacing past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The post birding experience is easy to use for both sighted novices in the field and blind/low-vision participants using remote screen readers, with a success rate of 76% to 100% in key tasks.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birding.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding can be enjoyed by both sighted and blind individuals, emphasizing its core aspects of listening and mindfulness.
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions with participants of mixed visual abilities found benefits in incorporating audio documentation, sharing mechanisms, and community features for accessible birding design solutions.
+[FINDINGS ERROR] JSON parse failed:  ["Finding 1": "User-generated content drives the highest community engagement on Merlin Instagram."
+INFO:     127.0.0.1:57422 - "GET /studies/study-005 HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'App Review Analysis...': Users' sentiments and frequent feature requests for apps are related to accessibility, features, and community engagement.
+INFO:     127.0.0.1:57377 - "GET /studies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57483 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57488 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content on Merlin's Instagram drives the highest engagement.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues, better tutorials, and user-requested features (documentation and sharing) are key areas for improvement in social media platforms based on analyzed support tickets.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and dates when resurfacing past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The core functionalities of the post birding app are validated for both blind/low-vision and sighted novice users.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birding.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders redefine birding by using heightened auditory skills.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions are beneficial for creating accessible birding tools that cater to various visual abilities, utilizing audio documentation, sharing mechanisms, and community features.
+[HEADLINE] Generated for 'App Review Analysis...': Users' sentiments towards apps are influenced by factors such as accessibility, features, and community engagement.
+INFO:     127.0.0.1:57485 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Social media users encounter frequent accessibility issues, require better tutorials, and have competing preferences for friendship and follower models.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location as the most important factor when resurfacing past outings, followed by bird types and then date.
+[HEADLINE] Generated for 'Post birding experience formal...': The birding app's core functionalities of logging outings, finding by date, species, and location were validated with high usability across blind/low-vision and sighted novice participants.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are the most accessible for birders.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can participate effectively in bird-watching, redefining the activity through listening skills and mindfulness.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design workshops should consider audio documentation and sharing mechanisms to make birding more accessible for individuals with visual impairments.
+[HEADLINE] Generated for 'App Review Analysis...': Users' sentiments and feature request priorities in apps primarily revolve around accessibility, features, and community engagement.
+INFO:     127.0.0.1:57530 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Users and influencers have contrasting preferences for social media account following architecture, with most users preferring mutual friending and some favoring asymmetrical following.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location as the most important factor when resurfacing past outings, followed by bird types and then date.
+[HEADLINE] Generated for 'Post birding experience formal...': The birding app's core functions for logging outings, searching by date, species, and location have been validated in usability testing among blind/low-vision and sighted novice users.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences in birding are most accessible.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding is fundamentally about listening and mindfulness, as demonstrated by both novice and blind birders.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions are valuable for creating accessible birding tools, focusing on audio documentation, sharing mechanisms, and community features.
+[HEADLINE] Generated for 'App Review Analysis...': Users value improved accessibility, new features, and enhanced community engagement in mobile apps.
+INFO:     127.0.0.1:51640 - "GET /studies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51759 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51763 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues and user pain points are common on social media platforms; improvements in tutorials, documentation, and sharing features are necessary.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and date when resurfacing past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The post birding experience prototype is usable for both sighted novices and blind/low-vision participants, as they successfully logged outings using date, species, and location features.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birders.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders redefine birding as a sensory experience beyond sight.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions can foster accessibility in birding by focusing on audio documentation, sharing mechanisms, and community features for mixed visual abilities.
+[HEADLINE] Generated for 'App Review Analysis...': User sentiment regarding apps shows significant focus on improved accessibility and new features, while also expressing a desire for enhanced community engagement.
+INFO:     127.0.0.1:51760 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Social media users frequently encounter accessibility issues and require improved tutorials, while feature requests focus on better documentation and sharing options, with competing preferences for mutual friending and asymmetric following models.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and dates when recalling past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': Core functionality of post-birding app is validated for both blind/low-vision and sighted novice users, with high success rates in logging outings by date, species, and location.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences in birding are the most accessible for various individuals.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding is fundamental for both sighted and blind individuals, emphasizing the importance of listening and mindfulness.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions are valuable for creating birding designs that cater to participants of varying visual abilities, incorporating audio documentation, shareable mechanisms, and community reminiscence features.
+[HEADLINE] Generated for 'App Review Analysis...': Users' sentiments are largely influenced by app accessibility, features, and community engagement.
+INFO:     127.0.0.1:51763 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram account.
+[FINDINGS ERROR] JSON parse failed:  ["Finding 1": "User-generated content drives the highest level of community engagement on Merlin In
+INFO:     127.0.0.1:51763 - "GET /studies/study-005 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51882 - "GET /filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51886 - "GET /filters HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues and need for better tutorials are common in social media use, while feature requests center around improved documentation and sharing, with two competing social models emerging: mutual friending vs asymmetric following of influencers.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location over bird types and dates when resurfacing past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The core functionalities of the post-birding experience app for both blind/low-vision and sighted novice users, including logging outings by date, species, and location, were validated during usability testing.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences in birding are most accessible for all participants.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Blind birders can significantly contribute to the practice of birdwatching by focusing on listening skills.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions can create accessible birding solutions, incorporating audio documentation, sharing mechanisms, and community features for mixed visual abilities.
+[HEADLINE] Generated for 'App Review Analysis...': The analysis of app reviews revealed trends in user sentiment regarding accessibility, features, and community engagement.
+INFO:     127.0.0.1:51884 - "GET /studies HTTP/1.1" 200 OK
+[HEADLINE] Generated for 'Merlin Instagram Analysis...': User-generated content drives the highest engagement on Merlin's Instagram.
+[HEADLINE] Generated for 'Social Media Desk Ticket Analy...': Accessibility issues and user education are common on social media platforms, with a need for better tutorials and clearer documentation.
+[HEADLINE] Generated for 'Post birding experience iterat...': Birders prioritize location above bird types and dates when resurfacing past outings.
+[HEADLINE] Generated for 'Post birding experience formal...': The core functionality of the post-birding experience platform, including logging outings and searching by date, species, and location, is validated for both blind/low-vision users and sighted novices.
+[HEADLINE] Generated for 'Interviews on Mindful Birding...': Audio-first experiences are most accessible for birding.
+[HEADLINE] Generated for 'Field Observations with Blind ...': Birding can be experienced by everyone, including the visually impaired, through listening and mindfulness.
+[HEADLINE] Generated for 'Mixed Visual Ability Co-design...': Co-design sessions involving participants with varying visual abilities found beneficial features in birding tools include audio documentation, shared mechanisms, and community features.
+[HEADLINE] Generated for 'App Review Analysis...': Users' sentiment and feature requests can be understood through app reviews, highlighting trends in accessibility, features, and community engagement.
+INFO:     127.0.0.1:51929 - "GET /studies HTTP/1.1" 200 OK
