@@ -13,6 +13,15 @@ import json
 
 app = FastAPI()
 
+# Configure CORS early, before any routes
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Test Ollama connection on startup
 try:
     test_response = ollama_client.generate(model="mistral", prompt="test", stream=False)
@@ -152,13 +161,6 @@ Provide a 2-3 sentence overview of what this research collection covers and how 
     except Exception as e:
         print(f"[INSIGHTS ERROR] Failed to generate insights: {str(e)}")
         return ""
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 from fastapi.staticfiles import StaticFiles
 
