@@ -207,10 +207,17 @@ export default function Ask() {
 
               {/* AI Findings Summary */}
               {selectedStudy.findingsSummary && (
-                <div style={{ marginBottom: "3rem", padding: "1.5rem", backgroundColor: "#f0f7f0", borderRadius: "8px", borderLeft: "4px solid #2e7d32" }}>
+                <div style={{ marginBottom: "3rem" }}>
                   <h2 style={{ margin: "0 0 1rem 0", fontSize: "1.3rem", fontWeight: 600 }}>Research Findings</h2>
                   <p style={{ lineHeight: 1.8, fontSize: "1rem", color: "var(--color-text)", margin: 0, whiteSpace: "pre-wrap" }}>
-                    {selectedStudy.findingsSummary}
+                    {selectedStudy.findingsSummary.replace(/\*\*(.+?)\*\*/g, (_, text) => text).split('\n').map((paragraph, i) => (
+                      <span key={i}>
+                        {paragraph.replace(/\*\*(.+?)\*\*/g, (_, text) => text).split(/(\*\*[^*]+\*\*)/g).map((part, j) =>
+                          part.match(/^\*\*/) ? <strong key={j}>{part.slice(2, -2)}</strong> : part
+                        )}
+                        {i < selectedStudy.findingsSummary!.split('\n').length - 1 && <br />}
+                      </span>
+                    ))}
                   </p>
                 </div>
               )}

@@ -245,7 +245,14 @@ export default function Repository() {
                       whiteSpace: "pre-wrap",
                     }}
                   >
-                    {selectedStudy.findingsSummary}
+                    {selectedStudy.findingsSummary.split('\n').map((paragraph, i) => (
+                      <span key={i}>
+                        {paragraph.split(/(\*\*[^*]+\*\*)/g).map((part, j) =>
+                          part.match(/^\*\*/) ? <strong key={j}>{part.slice(2, -2)}</strong> : part
+                        )}
+                        {i < selectedStudy.findingsSummary!.split('\n').length - 1 && <br />}
+                      </span>
+                    ))}
                   </div>
                 </div>
               )}
