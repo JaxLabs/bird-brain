@@ -29,10 +29,20 @@ type StudyDetail = {
   demographics: { role: string; age_range: string | null }[];
 };
 
+type ResearchOverview = {
+  total_studies: number;
+  total_participants: number;
+  methodologies: string[];
+  research_types: { [key: string]: number };
+  all_tags: string[];
+};
+
 type Message = {
   role: "user" | "assistant";
   text: string;
   studies?: MatchedStudy[];
+  insights?: string;
+  overview?: ResearchOverview;
   timestamp: string;
 };
 
@@ -78,8 +88,10 @@ export default function Ask() {
         ...prev,
         {
           role: "assistant",
-          text: `I found ${data.studies.length} relevant studies in the archive.`,
+          text: data.answer,
           studies: data.studies,
+          insights: data.insights,
+          overview: data.overview,
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         },
       ]);
@@ -390,7 +402,56 @@ export default function Ask() {
                           <BirdImage alt="Assistant" width={24} height={24} rounded={true} />
                         </div>
                         <div style={{ flex: 1 }}>
-                          {/* AI Summary Box */}
+                          {/* Research Overview */}
+                          {m.overview && (
+                            <div style={{
+                              background: "white",
+                              border: "1px solid var(--color-border)",
+                              borderRadius: "8px",
+                              padding: "1rem",
+                              marginBottom: "1rem"
+                            }}>
+                              <p style={{ margin: "0 0 0.75rem 0", fontSize: "0.85rem", fontWeight: 600, color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>Research Collection</p>
+                              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                                <div>
+                                  <div style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", marginBottom: "0.25rem" }}>Total Studies</div>
+                                  <div style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--color-text)" }}>{m.overview.total_studies}</div>
+                                </div>
+                                <div>
+                                  <div style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", marginBottom: "0.25rem" }}>Total Participants</div>
+                                  <div style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--color-text)" }}>{m.overview.total_participants?.toLocaleString()}</div>
+                                </div>
+                              </div>
+                              {m.overview.research_types && Object.keys(m.overview.research_types).length > 0 && (
+                                <div style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid var(--color-border)" }}>
+                                  <div style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", marginBottom: "0.5rem" }}>Research Types</div>
+                                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                                    {Object.entries(m.overview.research_types).map(([type, count]) => (
+                                      <span key={type} style={{ fontSize: "0.8rem", background: "var(--color-accent-bg)", color: "var(--color-text)", borderRadius: "4px", padding: "4px 8px" }}>
+                                        {type} ({count})
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Broad Insights */}
+                          {m.insights && (
+                            <div style={{
+                              background: "#f0f7f0",
+                              border: "1px solid #c8e6c9",
+                              borderRadius: "8px",
+                              padding: "1rem",
+                              marginBottom: "1rem"
+                            }}>
+                              <p style={{ margin: "0 0 0.5rem 0", fontSize: "0.85rem", fontWeight: 600, color: "#2e7d32" }}>📊 Research Insights</p>
+                              <p style={{ margin: "0", fontSize: "0.95rem", lineHeight: 1.5, color: "var(--color-text)" }}>{m.insights}</p>
+                            </div>
+                          )}
+
+                          {/* AI Answer Box */}
                           <div style={{
                             background: "#f0f7f0",
                             border: "1px solid #c8e6c9",
@@ -410,7 +471,7 @@ export default function Ask() {
                               color: "var(--color-text-muted)",
                               textTransform: "uppercase",
                               letterSpacing: "0.5px"
-                            }}>📚 Sources</p>
+                            }}>📚 Matching Studies</p>
                           )}
 
                           {/* Study Cards */}

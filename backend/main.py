@@ -91,6 +91,68 @@ Write ONLY the findings summary, no preamble."""
         print(f"[SUMMARY ERROR] Failed to generate: {str(e)}")
         return ""
 
+def get_research_overview():
+    """Get overview statistics about the research collection"""
+    try:
+        import sqlite3
+        conn = sqlite3.connect("bird_brain.db")
+        conn.row_factory = sqlite3.Row
+
+        total_studies = conn.execute("SELECT COUNT(*) as count FROM studies").fetchone()["count"]
+        total_participants = conn.execute("SELECT SUM(participants) as total FROM studies WHERE participants > 0").fetchone()["total"] or 0
+
+        methodologies = conn.execute(
+            "SELECT DISTINCT methodology FROM studies WHERE methodology IS NOT NULL"
+        ).fetchall()
+
+        research_types = conn.execute(
+            "SELECT research_type, COUNT(*) as count FROM studies GROUP BY research_type"
+        ).fetchall()
+
+        all_tags = conn.execute(
+            "SELECT DISTINCT tag FROM study_tags ORDER BY tag"
+        ).fetchall()
+
+        conn.close()
+
+        return {
+            "total_studies": total_studies,
+            "total_participants": total_participants,
+            "methodologies": list(set([m["methodology"] for m in methodologies if m["methodology"]])),
+            "research_types": {r["research_type"]: r["count"] for r in research_types if r["research_type"]},
+            "all_tags": [t["tag"] for t in all_tags],
+        }
+    except Exception as e:
+        print(f"[OVERVIEW ERROR] Failed to get overview: {str(e)}")
+        return {}
+
+def generate_broad_insights(question: str, overview: dict, all_studies: list) -> str:
+    """Generate broad insights about the research collection in response to a question"""
+    try:
+        studies_text = "\n".join([f"- {s['title']}" for s in all_studies[:10]])
+
+        prompt = f"""You are a research analyst. Based on the research collection below, provide broad insights about what this research explores.
+
+Total Studies: {overview.get('total_studies', 0)}
+Total Participants: {overview.get('total_participants', 0)}
+Research Types: {', '.join(overview.get('research_types', {}).keys())}
+Common Topics/Tags: {', '.join(overview.get('all_tags', [])[:10])}
+
+Recent Studies:
+{studies_text}
+
+User Question: {question}
+
+Provide a 2-3 sentence overview of what this research collection covers and how it relates to the user's question. Be specific about the scope and focus of the research."""
+
+        response = ollama_client.generate(model="mistral", prompt=prompt)
+        insights = response['response'].strip()
+        print(f"[INSIGHTS] Generated broad insights")
+        return insights
+    except Exception as e:
+        print(f"[INSIGHTS ERROR] Failed to generate insights: {str(e)}")
+        return ""
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -129,6 +191,16 @@ def ask_question(payload: dict):
         if not question:
             raise HTTPException(status_code=400, detail="Question is required")
 
+        import sqlite3
+
+        # 0. Get research overview and all studies
+        overview = get_research_overview()
+        conn = sqlite3.connect("bird_brain.db")
+        conn.row_factory = sqlite3.Row
+        all_rows = conn.execute("SELECT id, title, summary FROM studies ORDER BY date DESC").fetchall()
+        all_studies = [{"id": row["id"], "title": row["title"], "summary": row["summary"]} for row in all_rows]
+        conn.close()
+
         # 1. Embed the question
         response = ollama_client.embed(model="nomic-embed-text", input=question)
         query_vector = response["embeddings"][0]
@@ -140,7 +212,6 @@ def ask_question(payload: dict):
         matched_ids = [r["study_id"] for r in results]
 
         # 3. Pull full study data for the matches
-        import sqlite3
         conn = sqlite3.connect("bird_brain.db")
         conn.row_factory = sqlite3.Row
         matched_studies = []
@@ -173,7 +244,10 @@ def ask_question(payload: dict):
             })
         conn.close()
 
-        # 4. Build context for the LLM
+        # 4. Generate broad insights about the research collection
+        broad_insights = generate_broad_insights(question, overview, all_studies)
+
+        # 5. Build context for the LLM
         context_text = "\n\n".join(
             f"Study: {s['title']}\nSummary: {s['summary']}"
             for s in matched_studies
@@ -190,14 +264,19 @@ Question: {question}
 
 Answer:"""
 
-        # 5. Ask the LLM
+        # 6. Ask the LLM
         llm_response = ollama_client.chat(
             model="qwen3:8b",
             messages=[{"role": "user", "content": prompt}],
         )
         answer = llm_response["message"]["content"]
 
-        return {"answer": answer, "studies": matched_studies}
+        return {
+            "answer": answer,
+            "insights": broad_insights,
+            "overview": overview,
+            "studies": matched_studies
+        }
     except Exception as e:
         import traceback
         print(f"ERROR in /ask: {str(e)}")
