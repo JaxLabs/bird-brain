@@ -10,7 +10,8 @@ lancedb/
 # Research data - PRIVATE, do not commit
 *.research.csv
 research_data.json
-
+merlin_research_data.csv
+*_research_data.csv
 
 # Research data - PRIVATE, do not commit
 research/

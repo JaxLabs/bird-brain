@@ -12,7 +12,7 @@ class Quote(BaseModel):
     timestamp: Optional[str] = None
 
 class Document(BaseModel):
-    doc_type: Literal["Research Report", "Study Plan", "Screener", "Transcript", "Stimulus"]
+    doc_type: str
     file_url: str
 
 class Artifact(BaseModel):
@@ -32,10 +32,10 @@ class Study(BaseModel):
     id: str
     title: str
     date: str
-    researchType: Literal["Qual", "Quant"]
+    researchType: Literal["Qual", "Quant", "Qualitative", "Quantitative"]
     methodology: str
     topic: str
-    interaction: Literal["Moderated", "Unmoderated", "Survey"]
+    interaction: Literal["Moderated", "Unmoderated", "Survey", ""]
     participants: int
     researcher: str
     features: list[str]
