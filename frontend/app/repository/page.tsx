@@ -225,10 +225,6 @@ export default function Repository() {
                   <h2 style={{ margin: "0 0 1.5rem 0", fontSize: "1.5rem", fontWeight: 600 }}>Research Findings</h2>
                   <div
                     style={{
-                      padding: "2rem",
-                      backgroundColor: "#f8fdf7",
-                      borderRadius: "8px",
-                      borderLeft: "6px solid #2e7d32",
                       fontSize: "1.1rem",
                       lineHeight: 2,
                       color: "var(--color-text)",
