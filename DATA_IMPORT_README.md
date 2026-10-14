@@ -1,10 +1,23 @@
 # Importing Research Data
 
-This directory contains `merlin_research_data.csv`, a complete export of all research studies that you can use to populate Bird Brain with the same data.
+To populate Bird Brain with research studies, you'll need a CSV file with the research data.
+
+## Getting the Data File
+
+The research data is kept private and **not in the public repository** for security reasons.
+
+**To get the data file:**
+1. Download `merlin_research_data.csv` from the shared Google Drive folder
+2. Place it in the root of the Bird Brain repository (same folder as this README)
 
 ## Quick Start
 
-### Step 1: Set Up the Backend
+### Step 1: Prepare the Data File
+
+- Download `merlin_research_data.csv` from Google Drive
+- Save it in the Bird Brain repository root (same level as this file)
+
+### Step 2: Set Up the Backend
 
 ```bash
 cd backend
@@ -16,7 +29,7 @@ venv\Scripts\activate.bat        # Windows
 pip install -r requirements.txt
 ```
 
-### Step 2: Import the Data
+### Step 3: Import the Data
 
 ```bash
 python import_studies.py ../merlin_research_data.csv bird_brain.db
@@ -33,7 +46,7 @@ No errors!
 ============================================================
 ```
 
-### Step 3: Start the Backend
+### Step 4: Start the Backend
 
 ```bash
 python main.py
@@ -41,7 +54,7 @@ python main.py
 
 Wait until you see: `Uvicorn running on http://127.0.0.1:8000`
 
-### Step 4: Start the Frontend (in a new terminal)
+### Step 5: Start the Frontend (in a new terminal)
 
 ```bash
 cd frontend
@@ -64,9 +77,9 @@ The CSV format is optimized for re-importing into Bird Brain:
 - All participant counts and descriptions are normalized
 - Document types are preserved as-is
 
-## Advanced: Custom Data
+## Creating Your Own Data
 
-To import your own research instead:
+To import your own research:
 
 1. Create a CSV file with the same column structure as `merlin_research_data.csv`
 2. Run: `python import_studies.py your_file.csv bird_brain.db`
@@ -75,15 +88,27 @@ To import your own research instead:
 ## Troubleshooting
 
 **"File not found" error**
-- Make sure `merlin_research_data.csv` is in the same directory as where you're running the import command
+- Make sure `merlin_research_data.csv` is in the repository root directory
+- Check that you're running the import command from the `backend/` folder
 
 **"no such table" error**
-- The import script automatically creates the database schema, so this shouldn't happen
-- If it does, delete `bird_brain.db` and try again
+- The import script automatically creates the database schema
+- If this happens, delete `bird_brain.db` and try again
 
 **Import is slow**
-- The first import takes longer because AI models are generating headlines
-- Subsequent imports are faster
+- First import takes longer (AI models generating headlines)
+- Subsequent imports are much faster
+
+## Data Security
+
+⚠️ **Important:** The research data is sensitive and should be kept private.
+
+- ✅ Keep the CSV file in secure storage (Google Drive, encrypted drives)
+- ✅ Share only with authorized team members
+- ❌ Never commit the CSV to public repositories
+- ❌ Never share the CSV file publicly
+
+The import script is in the public repository, but the actual research data is shared separately via secure channels.
 
 ## Questions?
 
