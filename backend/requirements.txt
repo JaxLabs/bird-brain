@@ -1,0 +1,49 @@
+# Bird Brain Backend Dependencies
+# Python 3.9 - 3.12 supported
+# Python 3.13+ support: See PYTHON_313_ROADMAP.md
+
+# Core API Framework
+fastapi==0.141.1
+uvicorn==0.52.4
+starlette==1.6.0
+python-multipart==0.0.32
+
+# Data & ML Libraries
+pandas==3.0.5
+numpy==2.4.6
+pyarrow==25.0.1
+
+# Vector Database & Search
+lancedb==0.38.0
+lance-namespace==0.11.1
+lance-namespace-urllib3-client==0.11.1
+
+# AI/ML Model Client
+ollama==0.6.2
+
+# Data Validation
+pydantic==2.13.5
+pydantic_core==2.46.5
+
+# HTTP Client
+httpx==0.28.1
+httpcore==1.0.9
+h11==0.16.0
+
+# Utilities
+python-dotenv==1.2.3
+typing-extensions==4.16.0
+typing-inspection==0.4.4
+certifi==2026.7.22
+idna==3.19
+urllib3==2.7.0
+packaging==26.3
+six==1.17.0
+tqdm==4.70.0
+click==8.5.0
+anyio==4.14.2
+deprecation==2.1.0
+overrides==7.7.0
+annotated-types==0.8.0
+annotated-doc==0.0.5
+python-dateutil==2.9.0.post0
